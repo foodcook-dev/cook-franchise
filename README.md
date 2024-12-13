@@ -40,7 +40,6 @@ Start the server
   pnpm run dev
 ```
 
-
 ## License
 
 Licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
