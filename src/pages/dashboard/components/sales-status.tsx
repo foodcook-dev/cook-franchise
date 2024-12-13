@@ -1,3 +1,14 @@
+import { CircleAlert } from 'lucide-react'
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from 'recharts'
+
+import { format } from 'date-fns'
 import {
   ChartConfig,
   ChartContainer,
@@ -5,16 +16,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { DateStatisticData } from '@/types/product'
-import { format } from 'date-fns'
-import { CircleAlert } from 'lucide-react'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from 'recharts'
 
 const chartConfig = {
   total_revenue: {
@@ -27,7 +28,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Overview({ data }: { data: DateStatisticData | null }) {
+export function SalesStatus({ data }: { data: DateStatisticData | null }) {
   if (data && !data?.result[0]) {
     return (
       <div
@@ -43,16 +44,21 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
   return (
     <ResponsiveContainer width='100%' height={350}>
       <ChartContainer config={chartConfig}>
-        <BarChart data={data?.result} accessibilityLayer>
+        <LineChart
+          accessibilityLayer
+          data={data?.result}
+          margin={{
+            left: 12,
+            right: 12,
+          }}
+        >
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey={(value) => format(new Date(value.date), 'MM/dd')}
-            stroke='#888888'
-            fontSize={12}
             tickLine={false}
-            tickMargin={10}
-            tickFormatter={(value) => value}
             axisLine={false}
+            tickMargin={8}
+            tickFormatter={(value) => value}
           />
           <YAxis
             stroke='#888888'
@@ -61,22 +67,22 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
             axisLine={false}
             tickFormatter={(value) => `${value}`}
           />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator='dashed' />}
-          />
-
-          <Bar
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <Line
             dataKey='total_revenue'
-            fill='var(--chart-2)'
-            radius={[4, 4, 0, 0]}
+            type='monotone'
+            stroke='var(--chart-2)'
+            strokeWidth={2}
+            dot={false}
           />
-          <Bar
+          <Line
             dataKey='total_tax_free_amount'
-            fill='var(--chart-3)'
-            radius={[4, 4, 0, 0]}
+            type='monotone'
+            stroke='var(--chart-3)'
+            strokeWidth={2}
+            dot={false}
           />
-        </BarChart>
+        </LineChart>
       </ChartContainer>
     </ResponsiveContainer>
   )

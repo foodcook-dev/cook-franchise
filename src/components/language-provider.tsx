@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import { IntlProvider } from 'use-intl'
 import translations from '../translations'
 
-export type Language = 'en' | 'zh'
+export type Language = 'en' | 'zh' | 'ko'
 
 type LanguageProviderProps = {
   children: React.ReactNode
@@ -25,7 +25,7 @@ const LanguageProviderContext =
 
 export function LanguageProvider({
   children,
-  defaultLanguage = 'en',
+  defaultLanguage = 'ko',
   storageKey = 'vite-ui-language',
   ...props
 }: LanguageProviderProps) {

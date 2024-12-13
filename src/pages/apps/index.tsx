@@ -16,7 +16,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Search } from '@/components/search'
 import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
+
 import { Button } from '@/components/custom/button'
 import { apps } from './data'
 
@@ -54,7 +54,6 @@ export default function Apps() {
           <Search />
           <div className='flex items-center space-x-4'>
             <ThemeSwitch />
-            <UserNav />
           </div>
         </div>
       </Layout.Header>

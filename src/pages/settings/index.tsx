@@ -11,7 +11,7 @@ import { Layout } from '@/components/custom/layout'
 import { Search } from '@/components/search'
 import { Separator } from '@/components/ui/separator'
 import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
+// import { UserNav } from '@/components/user-nav'
 import SidebarNav from './components/sidebar-nav'
 
 export default function Settings() {
@@ -22,7 +22,7 @@ export default function Settings() {
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
-          <UserNav />
+          {/* <UserNav /> */}
         </div>
       </Layout.Header>
 

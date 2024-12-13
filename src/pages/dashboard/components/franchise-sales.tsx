@@ -11,7 +11,7 @@ import { DateStatisticData } from '@/types/product'
 import { useTranslations } from 'use-intl'
 import { format } from 'date-fns'
 
-export function RecentSales({ data }: { data: DateStatisticData | null }) {
+export function FranchiseSales({ data }: { data: DateStatisticData | null }) {
   const t = useTranslations('dashboard')
   return (
     <Table>

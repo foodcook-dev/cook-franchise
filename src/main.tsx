@@ -6,11 +6,14 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { LanguageProvider } from '@/components/language-provider'
 import router from '@/router'
 import '@/index.css'
+import { changeThemeColor } from './utils/changeThemeColor'
+
+changeThemeColor()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-      <LanguageProvider defaultLanguage='en' storageKey='vite-ui-language'>
+      <LanguageProvider defaultLanguage='ko' storageKey='vite-ui-language'>
         <RouterProvider router={router} />
         <Toaster />
       </LanguageProvider>

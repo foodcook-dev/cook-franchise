@@ -5,14 +5,13 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { DateStatisticData } from '@/types/product'
-import { format } from 'date-fns'
 import { CircleAlert } from 'lucide-react'
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
   ResponsiveContainer,
   XAxis,
+  AreaChart,
+  CartesianGrid,
+  Area,
   YAxis,
 } from 'recharts'
 
@@ -27,7 +26,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Overview({ data }: { data: DateStatisticData | null }) {
+export function ProductChart({ data }: { data: DateStatisticData | null }) {
   if (data && !data?.result[0]) {
     return (
       <div
@@ -39,20 +38,24 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
       </div>
     )
   }
-
   return (
     <ResponsiveContainer width='100%' height={350}>
       <ChartContainer config={chartConfig}>
-        <BarChart data={data?.result} accessibilityLayer>
+        <AreaChart
+          accessibilityLayer
+          data={data?.result}
+          margin={{
+            left: 12,
+            right: 12,
+          }}
+        >
           <CartesianGrid vertical={false} />
           <XAxis
-            dataKey={(value) => format(new Date(value.date), 'MM/dd')}
-            stroke='#888888'
-            fontSize={12}
+            dataKey='month'
             tickLine={false}
-            tickMargin={10}
-            tickFormatter={(value) => value}
             axisLine={false}
+            tickMargin={8}
+            tickFormatter={(value) => value.slice(0, 3)}
           />
           <YAxis
             stroke='#888888'
@@ -61,22 +64,26 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
             axisLine={false}
             tickFormatter={(value) => `${value}`}
           />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator='dashed' />}
-          />
 
-          <Bar
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+
+          <Area
             dataKey='total_revenue'
+            type='natural'
             fill='var(--chart-2)'
-            radius={[4, 4, 0, 0]}
+            fillOpacity={0.8}
+            stroke='var(--chart-2)'
+            stackId='a'
           />
-          <Bar
+          <Area
             dataKey='total_tax_free_amount'
+            type='natural'
             fill='var(--chart-3)'
-            radius={[4, 4, 0, 0]}
+            fillOpacity={0.8}
+            stroke='var(--chart-3)'
+            stackId='b'
           />
-        </BarChart>
+        </AreaChart>
       </ChartContainer>
     </ResponsiveContainer>
   )

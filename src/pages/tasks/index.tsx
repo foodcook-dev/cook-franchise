@@ -1,7 +1,7 @@
 import { Layout } from '@/components/custom/layout'
 import { Search } from '@/components/search'
 import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
+// import { UserNav } from '@/components/user-nav'
 import { DataTable } from './components/data-table'
 import { columns } from './components/columns'
 import { tasks } from './data/tasks'
@@ -14,7 +14,7 @@ export default function Tasks() {
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
-          <UserNav />
+          {/* <UserNav /> */}
         </div>
       </Layout.Header>
 

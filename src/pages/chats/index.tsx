@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import {
   IconArrowLeft,
   IconDotsVertical,
@@ -20,14 +20,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Layout } from '@/components/custom/layout'
 import { Search } from '@/components/search'
 import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
+// import { UserNav } from '@/components/user-nav'
 import { Button } from '@/components/custom/button'
 
 // Fake Data
 import { conversations } from '@/data/conversations.json'
 
 type ChatUser = (typeof conversations)[number]
-type Convo = ChatUser['messages'][number]
+// type Convo = ChatUser['messages'][number]
 
 export default function Chats() {
   const [search, setSearch] = useState('')
@@ -41,22 +41,22 @@ export default function Chats() {
     fullName.toLowerCase().includes(search.trim().toLowerCase())
   )
 
-  const currentMessage = selectedUser.messages.reduce(
-    (acc: Record<string, Convo[]>, obj) => {
-      const key = dayjs(obj.timestamp).format('D MMM, YYYY')
+  // const currentMessage = selectedUser.messages.reduce(
+  //   (acc: Record<string, Convo[]>, obj) => {
+  //     const key = dayjs(obj.timestamp).('D MMM, YYYY')
 
-      // Create an array for the category if it doesn't exist
-      if (!acc[key]) {
-        acc[key] = []
-      }
+  //     // Create an array for the category if it doesn't exist
+  //     if (!acc[key]) {
+  //       acc[key] = []
+  //     }
 
-      // Push the current object to the array
-      acc[key].push(obj)
+  //     // Push the current object to the array
+  //     acc[key].push(obj)
 
-      return acc
-    },
-    {}
-  )
+  //     return acc
+  //   },
+  //   {}
+  // )
 
   return (
     <Layout fixed>
@@ -65,7 +65,7 @@ export default function Chats() {
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
-          <UserNav />
+          {/* <UserNav /> */}
         </div>
       </Layout.Header>
 
@@ -111,7 +111,7 @@ export default function Chats() {
                     <button
                       type='button'
                       className={cn(
-                        `-mx-1 flex w-full rounded-md px-2 py-2 text-left text-sm hover:bg-secondary/75`,
+                        `hover:bg-secondary/75 -mx-1 flex w-full rounded-md px-2 py-2 text-left text-sm`,
                         selectedUser.id === id && 'sm:bg-muted'
                       )}
                       onClick={() => {
@@ -209,7 +209,7 @@ export default function Chats() {
             <div className='flex flex-1 flex-col gap-2 rounded-md px-4 pb-4 pt-0'>
               <div className='flex size-full flex-1'>
                 <div className='chat-text-container relative -mr-4 flex flex-1 flex-col overflow-y-hidden'>
-                  <div className='chat-flex flex h-40 w-full flex-grow flex-col-reverse justify-start gap-4 overflow-y-auto py-2 pb-4 pr-4'>
+                  {/* <div className='chat-flex flex h-40 w-full flex-grow flex-col-reverse justify-start gap-4 overflow-y-auto py-2 pb-4 pr-4'>
                     {currentMessage &&
                       Object.keys(currentMessage).map((key) => (
                         <Fragment key={key}>
@@ -237,7 +237,7 @@ export default function Chats() {
                           <div className='text-center text-xs'>{key}</div>
                         </Fragment>
                       ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <form className='flex w-full flex-none gap-2'>
