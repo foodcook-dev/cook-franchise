@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "883GRVZ6B4.com.wepick.FoodCook",
+        "paths": [
+          "/app/*"
+        ]
+      }
+    ]
+  }
+}
