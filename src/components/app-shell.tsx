@@ -3,7 +3,7 @@ import Sidebar from './sidebar'
 import useIsCollapsed from '@/hooks/use-is-collapsed'
 import SkipToMain from './skip-to-main'
 import { useEffect } from 'react'
-import { initAPISettings } from '@/controller/api'
+
 // import { getUser } from '@/controller/user-auth'
 
 export default function AppShell() {
@@ -15,7 +15,6 @@ export default function AppShell() {
   )
 
   useEffect(() => {
-    initAPISettings()
     if (!userInfo) {
       navigation('/login')
     }

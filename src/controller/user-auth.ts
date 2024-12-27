@@ -1,9 +1,11 @@
 import { API, setAPIAccessToken } from '@/controller/api'
 import { changeThemeColor } from '@/utils/changeThemeColor'
 
-const setAccessToken = (accessToken: string) => {
+const setAccessToken = (accessToken: string, refreshToken: string) => {
   try {
     localStorage.setItem('accessToken', accessToken)
+    sessionStorage.setItem('refreshToken', refreshToken)
+    setAPIAccessToken()
   } catch (e) {
     console.error(e)
   }
@@ -24,6 +26,7 @@ const removeAccessToken = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('userInfo')
     localStorage.removeItem('franchiseInfo')
+    sessionStorage.removeItem('refreshToken')
   } catch (e) {
     console.error(e)
   }
@@ -33,7 +36,7 @@ const login = async (id: string, password: string) => {
   const response = await API.post(`/user/login/`, { username: id, password })
   if (response.status === 200) {
     console.log('login', response.data)
-    await setAccessToken(response.data['access'])
+    await setAccessToken(response.data['access'], response.data['refresh'])
     await setAPIAccessToken()
 
     localStorage.setItem('userInfo', JSON.stringify(response.data?.user))
@@ -55,14 +58,36 @@ const logout = async () => {
 
 const refreshAccessToken = async () => {
   try {
-    const accessToken = getAccessToken()
-    const refreshToken = await API.post(`/users/refresh-token/`, {
-      refresh_token: accessToken,
-    })
-    setAccessToken(refreshToken.data['access_token'])
+    const validateToken = await validateAccessToken()
+    const refreshToken = sessionStorage.getItem('refreshToken')
+
+    if (!validateToken) {
+      const result = await API.post(`/user/login/refresh/`, {
+        refresh: refreshToken,
+      })
+      setAccessToken(result.data['access_token'], result.data['refresh_token'])
+      setAPIAccessToken()
+    }
   } catch (e) {
     console.error(e)
     logout()
+  }
+}
+
+const validateAccessToken = async () => {
+  try {
+    const userInfo = localStorage.getItem('userInfo')
+    if (!userInfo) {
+      return false
+    }
+    const userInfoObj = JSON.parse(userInfo)
+    const response = await API.post(`/user/validate-token/`, {
+      username: userInfoObj?.username,
+    })
+    return response.status === 201
+  } catch (e) {
+    console.error(e)
+    return false
   }
 }
 
@@ -73,4 +98,5 @@ export {
   login,
   logout,
   refreshAccessToken,
+  validateAccessToken,
 }
