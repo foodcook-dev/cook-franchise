@@ -1,16 +1,19 @@
 import { API } from './api'
 
 const getDateStatistic = async ({
+  franchiseId,
   startDate,
   endDate,
 }: {
+  franchiseId: string
   startDate: string
   endDate: string
 }) => {
   const result = await API.get(
-    `/statistic/api/get_today_sales?from=${startDate}&to=${endDate}`
+    `/franchise/get-franchise-statistic/?franchise_id=${franchiseId}&start_date=${startDate}&end_date=${endDate}`
   )
-  if (result.data.result) return result.data
+
+  if (result.data) return result.data
   return null
 }
 

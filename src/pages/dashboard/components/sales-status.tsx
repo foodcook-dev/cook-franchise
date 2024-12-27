@@ -1,8 +1,10 @@
 import { CircleAlert } from 'lucide-react'
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
-  Line,
-  LineChart,
+  // Line,
+  // LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -18,18 +20,18 @@ import {
 import { DateStatisticData } from '@/types/product'
 
 const chartConfig = {
-  total_revenue: {
+  paid_amount: {
     label: '총 수익',
     color: '--chart-2',
   },
-  total_tax_free_amount: {
+  canceled_amount: {
     label: '총 환불',
     color: '--chart-3',
   },
 } satisfies ChartConfig
 
 export function SalesStatus({ data }: { data: DateStatisticData | null }) {
-  if (data && !data?.result[0]) {
+  if (!data) {
     return (
       <div
         className='my-4 items-center justify-center'
@@ -44,9 +46,9 @@ export function SalesStatus({ data }: { data: DateStatisticData | null }) {
   return (
     <ResponsiveContainer width='100%' height={350}>
       <ChartContainer config={chartConfig}>
-        <LineChart
+        <BarChart
           accessibilityLayer
-          data={data?.result}
+          data={data?.chart}
           margin={{
             left: 12,
             right: 12,
@@ -68,21 +70,21 @@ export function SalesStatus({ data }: { data: DateStatisticData | null }) {
             tickFormatter={(value) => `${value}`}
           />
           <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-          <Line
-            dataKey='total_revenue'
+          <Bar
+            dataKey='paid_amount'
             type='monotone'
-            stroke='var(--chart-2)'
-            strokeWidth={2}
-            dot={false}
+            fill='var(--chart-2)'
+            // strokeWidth={2}
+            radius={[4, 4, 0, 0]}
           />
-          <Line
-            dataKey='total_tax_free_amount'
+          <Bar
+            dataKey='canceled_amount'
             type='monotone'
-            stroke='var(--chart-3)'
-            strokeWidth={2}
-            dot={false}
+            fill='var(--chart-3)'
+            radius={[4, 4, 0, 0]}
+            // strokeWidth={2}
           />
-        </LineChart>
+        </BarChart>
       </ChartContainer>
     </ResponsiveContainer>
   )

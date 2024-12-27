@@ -8,41 +8,42 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DateStatisticData } from '@/types/product'
-import { useTranslations } from 'use-intl'
-import { format } from 'date-fns'
+// import { useTranslations } from 'use-intl'
 
 export function RecentSales({ data }: { data: DateStatisticData | null }) {
-  const t = useTranslations('dashboard')
+  // const t = useTranslations('dashboard')
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>날짜</TableHead>
-          <TableHead>{t('total_order_count')}</TableHead>
-          <TableHead>{t('total_revenue')}</TableHead>
-          <TableHead>{t('total_refund')}</TableHead>
-          <TableHead>{t('total_revenue')}</TableHead>
-
-          {/* <TableHead className='text-right'></TableHead> */}
+          {data?.table?.[0].map((item, index) => (
+            <TableHead className='text-center' key={index}>
+              {item}
+            </TableHead>
+          ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.result.map((item) => (
-          <TableRow key={item.id}>
-            <TableCell>{format(item.date, 'MM/dd')}</TableCell>
-            <TableCell>{item.total_order_count}</TableCell>
-            <TableCell>{item.total_tax_free_amount.toLocaleString()}</TableCell>
-            <TableCell>{item.total_revenue.toLocaleString()}</TableCell>
-            <TableCell>{item.app_revenue.toLocaleString()}</TableCell>
+        {data?.table?.slice(1).map((row, index) => (
+          <TableRow key={index}>
+            <TableCell className='text-center'>{row[0]}</TableCell>
+            <TableCell className='text-center'>{row[1]}</TableCell>
+            <TableCell className='text-center'>
+              {row[2].toLocaleString()}원
+            </TableCell>
+            <TableCell className='text-center'>{row[3]}</TableCell>
+            <TableCell className='text-center'>
+              {row[4].toLocaleString()}원
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={4}>총 합계</TableCell>
+          {/* <TableCell colSpan={4}>총 합계</TableCell> */}
 
           <TableCell>
-            {data?.result[0]?.total_revenue.toLocaleString()}원
+            {/* {data?.result[0]?.total_revenue.toLocaleString()}원 */}
           </TableCell>
         </TableRow>
       </TableFooter>

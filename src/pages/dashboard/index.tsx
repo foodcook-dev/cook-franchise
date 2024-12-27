@@ -1,10 +1,11 @@
 import { Layout } from '@/components/custom/layout'
 import {
   startOfWeek,
-  endOfWeek,
+  // endOfWeek,
   startOfMonth,
-  endOfMonth,
+  // endOfMonth,
   format,
+  addDays,
 } from 'date-fns'
 
 import {
@@ -23,7 +24,7 @@ import { RecentSales } from './components/recent-sales'
 import { Overview } from './components/overview'
 import { useTranslations } from 'use-intl'
 import LanguageSwitch from '@/components/language-switch'
-import { ProductChart } from './components/product-chart'
+// import { ProductChart } from './components/product-chart'
 // import { ProductSales } from './components/product-sales'
 
 import { productData } from '../tasks/data/products'
@@ -36,11 +37,14 @@ import { getDateStatistic } from '@/controller/statistic'
 import { StatisticCard } from './components/statistic-card'
 import { DateStatisticData } from '@/types/product'
 import { SalesStatus } from './components/sales-status'
-import { FranchiseSales } from './components/franchise-sales'
+// import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
   const t = useTranslations('dashboard')
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const franchiseInfo = JSON.parse(
+    localStorage.getItem('franchiseInfo') || '{}'
+  )
 
   const [statisticData, setStatisticData] = useState<DateStatisticData | null>(
     null
@@ -62,6 +66,7 @@ export default function Dashboard() {
   }
 
   const handleSubmitDate = async () => {
+    const today = new Date()
     if (!startDate) {
       alert('시작 날짜를 선택해주세요.')
       return
@@ -74,6 +79,12 @@ export default function Dashboard() {
       alert('종료 날짜는 시작 날짜보다 빠를 수 없습니다.')
       return
     }
+
+    if (endDate > today) {
+      alert('종료 날짜는 오늘 날짜보다 미래일 수 없습니다.')
+      return
+    }
+
     console.log('startDate', startDate)
     console.log('endDate', endDate)
 
@@ -81,6 +92,7 @@ export default function Dashboard() {
 
     try {
       const response = await getDateStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
       })
@@ -98,23 +110,26 @@ export default function Dashboard() {
 
   const handleSubmitPeriod = async (period: 'daily' | 'weekly' | 'monthly') => {
     const today = new Date()
+
     let newStartDate: Date | undefined
     let newEndDate: Date | undefined
 
     switch (period) {
       case 'daily':
-        newStartDate = today
+        newStartDate = addDays(today, -1)
         newEndDate = today
         break
 
       case 'weekly':
         newStartDate = startOfWeek(today)
-        newEndDate = endOfWeek(today)
+        // newEndDate = endOfWeek(today)
+        newEndDate = today
         break
 
       case 'monthly':
         newStartDate = startOfMonth(today)
-        newEndDate = endOfMonth(today)
+        // newEndDate = endOfMonth(today)
+        newEndDate = today
         break
 
       default:
@@ -128,6 +143,7 @@ export default function Dashboard() {
     try {
       // 요청에 새로 계산한 날짜를 사용
       const response = await getDateStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
         startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
         endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
       })
@@ -173,6 +189,7 @@ export default function Dashboard() {
 
     try {
       const response = await getDateStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
         startDate: start ? format(start, 'yyyy-MM-dd') : '',
         endDate: end ? format(end, 'yyyy-MM-dd') : '',
       })
@@ -189,7 +206,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    handleSelectButton('daily')
+    // handleSelectButton('daily')
   }, [])
 
   return (
@@ -247,8 +264,8 @@ export default function Dashboard() {
               <TabsTrigger value='sales_status'>
                 {t('sales_status')}
               </TabsTrigger>
-              <TabsTrigger value='overview'>{t('overview')}</TabsTrigger>
-              <TabsTrigger value='analytics'>{t('analytics')}</TabsTrigger>
+              {/* <TabsTrigger value='overview'>{t('overview')}</TabsTrigger> */}
+              {/* <TabsTrigger value='analytics'>{t('analytics')}</TabsTrigger> */}
             </TabsList>
           </div>
 
@@ -269,9 +286,9 @@ export default function Dashboard() {
                 <CardHeader>
                   <CardTitle>{t('recent_sales')}</CardTitle>
                   <CardDescription>
-                    {t('recent_sales_desc', {
+                    {/* {t('recent_sales_desc', {
                       amount: statisticData?.counts?.total_order_count,
-                    })}
+                    })} */}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -298,14 +315,14 @@ export default function Dashboard() {
                 <CardHeader>
                   <CardTitle>{t('franchise_sales')}</CardTitle>
                   <CardDescription>
-                    {t('franchise_sales_desc', {
+                    {/* {t('franchise_sales_desc', {
                       amount:
                         statisticData?.result[0]?.total_revenue.toLocaleString(),
-                    })}
+                    })} */}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FranchiseSales data={statisticData} />
+                  {/* <FranchiseSales data={statisticData} /> */}
                 </CardContent>
               </Card>
             </div>
@@ -318,7 +335,7 @@ export default function Dashboard() {
                   <CardTitle>{t('analytics')}</CardTitle>
                 </CardHeader>
                 <CardContent className='pl-2'>
-                  <ProductChart data={statisticData} />
+                  {/* <ProductChart data={statisticData} /> */}
                 </CardContent>
               </Card>
               <Card className='col-span-1 lg:col-span-3'>

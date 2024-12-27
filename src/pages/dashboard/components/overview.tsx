@@ -1,34 +1,35 @@
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
+  // ChartTooltip,
+  // ChartTooltipContent,
 } from '@/components/ui/chart'
-import { DateStatisticData } from '@/types/product'
-import { format } from 'date-fns'
+// import { DateStatisticData } from '@/types/product'
+// import { format } from 'date-fns'
 import { CircleAlert } from 'lucide-react'
 import {
   Bar,
   BarChart,
   CartesianGrid,
   ResponsiveContainer,
-  XAxis,
-  YAxis,
+  // XAxis,
+  // YAxis,
 } from 'recharts'
 
 const chartConfig = {
-  total_revenue: {
+  total_amount: {
     label: '총 수익',
     color: '--chart-2',
   },
-  total_tax_free_amount: {
+  canceled_amount: {
     label: '총 환불',
     color: '--chart-3',
   },
 } satisfies ChartConfig
 
-export function Overview({ data }: { data: DateStatisticData | null }) {
-  if (data && !data?.result[0]) {
+export function Overview({ data }: { data: { chart?: unknown[] } | null }) {
+  console.log('data', data)
+  if (!data) {
     return (
       <div
         className='my-4 items-center justify-center'
@@ -43,9 +44,12 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
   return (
     <ResponsiveContainer width='100%' height={350}>
       <ChartContainer config={chartConfig}>
-        <BarChart data={data?.result} accessibilityLayer>
+        <BarChart
+          data={(data?.chart as { datasets?: unknown[] })?.datasets}
+          accessibilityLayer
+        >
           <CartesianGrid vertical={false} />
-          <XAxis
+          {/* <XAxis
             dataKey={(value) => format(new Date(value.date), 'MM/dd')}
             stroke='#888888'
             fontSize={12}
@@ -54,17 +58,17 @@ export function Overview({ data }: { data: DateStatisticData | null }) {
             tickFormatter={(value) => value}
             axisLine={false}
           />
-          <YAxis
+          <YAxisfDateStatisticData
             stroke='#888888'
             fontSize={9}
             tickLine={false}
             axisLine={false}
             tickFormatter={(value) => `${value}`}
-          />
-          <ChartTooltip
+          /> */}
+          {/* <ChartTooltip
             cursor={false}
             content={<ChartTooltipContent indicator='dashed' />}
-          />
+          /> */}
 
           <Bar
             dataKey='total_revenue'

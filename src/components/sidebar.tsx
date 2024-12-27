@@ -5,19 +5,21 @@ import { Button } from './custom/button'
 import Nav from './nav'
 import { cn } from '@/lib/utils'
 import { sidelinks } from '@/data/sidelinks'
-import { UserFull } from '@/types/users'
+import { Franchise, UserFull } from '@/types/users'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
   userInfo: UserFull
+  franchiseInfo: Franchise
 }
 
 export default function Sidebar({
   className,
   isCollapsed,
   setIsCollapsed,
-  userInfo,
+
+  franchiseInfo,
 }: SidebarProps) {
   const [navOpened, setNavOpened] = useState(false)
 
@@ -53,9 +55,9 @@ export default function Sidebar({
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
-              {userInfo?.franchise?.name ? (
+              {franchiseInfo?.name ? (
                 <p className='truncate text-sm font-semibold'>
-                  {userInfo?.franchise?.name} 관리자 페이지
+                  {franchiseInfo?.name} 관리자 페이지
                 </p>
               ) : null}
             </div>

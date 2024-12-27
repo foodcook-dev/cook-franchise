@@ -3,12 +3,13 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
 export const APP_VERSION = '1.0.7'
 
 // const DEV_FLAG = __DEV__;
-const DEV_FLAG = false
-// const DEV_FLAG = true
+// const DEV_FLAG = false
+const DEV_FLAG = true
 
 // const MAIN_ENDPOINT = "https://xn--wv4b09focz31b.com";
 const MAIN_ENDPOINT = 'https://admin.xn--wv4b09focz31b.com'
-const TEST_ENDPOINT = 'https://admin.cookerp.shop'
+// const TEST_ENDPOINT = 'https://admin.cookerp.shop'
+const TEST_ENDPOINT = 'https://franchise.cookerp.shop'
 const API_ENDPOINT = DEV_FLAG ? TEST_ENDPOINT : MAIN_ENDPOINT
 // const API_ENDPOINT = TEST_ENDPOINT;
 
@@ -74,7 +75,7 @@ function setAPIAccessToken() {
 // init API settings when app starts
 function initAPISettings() {
   setAPIAccessToken()
-  updateApiBaseUrl()
+  // updateApiBaseUrl()
 }
 
 function requestInterceptor(config: InternalAxiosRequestConfig) {

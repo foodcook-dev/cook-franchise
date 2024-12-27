@@ -27,7 +27,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ProductChart({ data }: { data: DateStatisticData | null }) {
-  if (data && !data?.result[0]) {
+  if (data) {
     return (
       <div
         className='my-4 items-center justify-center'
@@ -43,7 +43,7 @@ export function ProductChart({ data }: { data: DateStatisticData | null }) {
       <ChartContainer config={chartConfig}>
         <AreaChart
           accessibilityLayer
-          data={data?.result}
+          data={[]}
           margin={{
             left: 12,
             right: 12,

@@ -44,7 +44,10 @@
     "recent_sales_top_product": "최근 판매 최고 상품",
     "expected_sales_incentives": "예상 매출 장려금",
     "excellent_franchise_store": "우수 가맹점",
+
+    "excellent_franchise_sales_total_amount": "우수 가맹점 판매 총액",
     "franchise_register_count": "가맹점 가입현황",
+    "most_purchases_sales_company": "최다 구매 매출 가맹점",
     "from_last_month": "지난달 대비 {amount}",
     "since_last_hour": "지난 한 시간 동안 {amount}",
     "subscriptions": "구독",

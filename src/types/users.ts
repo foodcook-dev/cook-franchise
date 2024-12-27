@@ -17,6 +17,14 @@ type AuthCompany = {
   company_name: string
 }
 
+type Franchise = {
+  id: number
+  name: string
+  headquarters_address: string | null
+  contact_email: string | null
+  contact_phone: string | null
+}
+
 type UserFull = {
   // payload: {
   branch: {
@@ -219,4 +227,5 @@ export type {
   DeliveryAddress,
   UserCompany,
   AddressBook,
+  Franchise,
 }

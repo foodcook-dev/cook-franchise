@@ -15,7 +15,6 @@ export default function LanguageSwitch() {
   const languageText = new Map<string, string>([
     ['en', 'English'],
     ['ko', '한국어'],
-    ['zh', '简体中文'],
   ])
 
   const renderDropdownItem = () => {

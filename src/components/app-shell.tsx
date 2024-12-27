@@ -1,16 +1,24 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Sidebar from './sidebar'
 import useIsCollapsed from '@/hooks/use-is-collapsed'
 import SkipToMain from './skip-to-main'
 import { useEffect } from 'react'
-import { getUser } from '@/controller/user-auth'
+import { initAPISettings } from '@/controller/api'
+// import { getUser } from '@/controller/user-auth'
 
 export default function AppShell() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const navigation = useNavigate()
+  const franchiseInfo = JSON.parse(
+    localStorage.getItem('franchiseInfo') || '{}'
+  )
 
   useEffect(() => {
-    getUser()
+    initAPISettings()
+    if (!userInfo) {
+      navigation('/login')
+    }
   }, [])
 
   return (
@@ -21,6 +29,7 @@ export default function AppShell() {
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
         userInfo={userInfo}
+        franchiseInfo={franchiseInfo}
       />
       <main
         id='content'
