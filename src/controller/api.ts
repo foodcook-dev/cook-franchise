@@ -81,7 +81,7 @@ async function authErrorInterceptor(error: AxiosError) {
   if (error.response?.status === 401) {
     console.log('Unauthorized error detected. Attempting token refresh...')
     try {
-      const refreshToken = sessionStorage.getItem('refreshToken')
+      const refreshToken = localStorage.getItem('refreshToken')
 
       console.log('refreshToken:', refreshToken)
       if (!refreshToken) {

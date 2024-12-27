@@ -4,7 +4,7 @@ import { changeThemeColor } from '@/utils/changeThemeColor'
 const setAccessToken = (accessToken: string, refreshToken: string) => {
   try {
     localStorage.setItem('accessToken', accessToken)
-    sessionStorage.setItem('refreshToken', refreshToken)
+    localStorage.setItem('refreshToken', refreshToken)
     setAPIAccessToken()
   } catch (e) {
     console.error(e)
@@ -26,7 +26,7 @@ const removeAccessToken = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('userInfo')
     localStorage.removeItem('franchiseInfo')
-    sessionStorage.removeItem('refreshToken')
+    localStorage.removeItem('refreshToken')
   } catch (e) {
     console.error(e)
   }
@@ -53,13 +53,14 @@ const login = async (id: string, password: string) => {
 const logout = async () => {
   removeAccessToken()
   await setAPIAccessToken()
+  window.location.reload()
   // await updateApiBaseUrl()
 }
 
 const refreshAccessToken = async () => {
   try {
     const validateToken = await validateAccessToken()
-    const refreshToken = sessionStorage.getItem('refreshToken')
+    const refreshToken = localStorage.getItem('refreshToken')
 
     if (!validateToken) {
       const result = await API.post(`/user/login/refresh/`, {
