@@ -14,12 +14,6 @@ const TEST_ENDPOINT = 'https://franchise.cookerp.shop'
 const API_ENDPOINT = DEV_FLAG ? TEST_ENDPOINT : MAIN_ENDPOINT
 // const API_ENDPOINT = TEST_ENDPOINT;
 
-const PAY_MAIN_ENDPOINT_LIVE = 'https://pay.xn--wv4b09focz31b.com'
-const PAY_MAIN_ENDPOINT_TEST = 'https://pay.cookerp.shop'
-const PAY_MAIN_ENDPOINT = DEV_FLAG
-  ? PAY_MAIN_ENDPOINT_TEST
-  : PAY_MAIN_ENDPOINT_LIVE
-
 const API = axios.create({
   baseURL: API_ENDPOINT,
   timeout: 1000 * 15, // 15 seconds
@@ -60,9 +54,8 @@ function setAPIAccessToken() {
 }
 
 // init API settings when app starts
-function initAPISettings() {
-  setAPIAccessToken()
-  // updateApiBaseUrl()
+async function initAPISettings() {
+  await setAPIAccessToken()
 }
 
 function requestInterceptor(config: InternalAxiosRequestConfig) {
@@ -75,53 +68,117 @@ function requestInterceptor(config: InternalAxiosRequestConfig) {
   return config
 }
 
-async function authErrorInterceptor(error: AxiosError) {
-  console.log('axios:error:', error.cause, error.message, error.response?.data)
+// async function authErrorInterceptor(error: AxiosError) {
+//   console.log('axios:error:', error.cause, error.message, error.response?.data)
 
-  if (error.response?.status === 401) {
-    console.log('Unauthorized error detected. Attempting token refresh...')
-    try {
+//   if (error.response?.status === 401) {
+//     console.log('Unauthorized error detected. Attempting token refresh...')
+//     try {
+//       const refreshToken = localStorage.getItem('refreshToken')
+
+//       console.log('refreshToken:', refreshToken)
+//       if (!refreshToken) {
+//         console.log('No refresh token found. Logging out...')
+//         logout()
+//         return Promise.reject(error)
+//       }
+
+//       // Refresh the access token
+//       const response = await API.post('/user/login/refresh/', {
+//         refresh: refreshToken,
+//       })
+
+//       // Save new tokens
+//       const { access_token, refresh_token } = response.data
+//       setAccessToken(access_token, refresh_token)
+//       setAPIAccessToken()
+
+//       // Retry the failed request with the new access token
+//       if (error.config) {
+//         error.config.headers.authorization = `Bearer ${access_token}`
+//         return API.request(error.config)
+//       }
+//     } catch (refreshError) {
+//       console.error('Failed to refresh token:', refreshError)
+//       logout()
+//     }
+//   }
+
+//   return Promise.reject(error)
+// }
+
+API.interceptors.request.use(requestInterceptor)
+// API.interceptors.response.use((response) => response, authErrorInterceptor)
+
+let isRefreshing = false // Refresh 요청 상태
+let refreshSubscribers: Array<(token: string) => void> = [] // 실패한 요청 대기열
+
+API.interceptors.response.use(
+  (response) => response, // 정상 응답은 그대로 반환
+  async (error: AxiosError) => {
+    if (error.response?.status === 401) {
       const refreshToken = localStorage.getItem('refreshToken')
 
-      console.log('refreshToken:', refreshToken)
+      // RefreshToken 없으면 로그아웃 처리
       if (!refreshToken) {
         console.log('No refresh token found. Logging out...')
         logout()
         return Promise.reject(error)
       }
 
-      // Refresh the access token
-      const response = await API.post('/user/login/refresh/', {
-        refresh: refreshToken,
-      })
-
-      // Save new tokens
-      const { access_token, refresh_token } = response.data
-      setAccessToken(access_token, refresh_token)
-      setAPIAccessToken()
-
-      // Retry the failed request with the new access token
-      if (error.config) {
-        error.config.headers.authorization = `Bearer ${access_token}`
-        return API.request(error.config)
+      // Refresh 요청 진행 중일 때
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          refreshSubscribers.push((newToken) => {
+            if (error.config) {
+              error.config.headers.authorization = `Bearer ${newToken}`
+              resolve(API.request(error.config))
+            } else {
+              reject(error)
+            }
+          })
+        })
       }
-    } catch (refreshError) {
-      console.error('Failed to refresh token:', refreshError)
-      logout()
+
+      // Refresh 요청 시작
+      isRefreshing = true
+
+      try {
+        const response = await API.post('/user/login/refresh/', {
+          refresh: refreshToken,
+        })
+
+        const { access_token, refresh_token } = response.data
+
+        // 새로운 토큰 저장
+        setAccessToken(access_token, refresh_token)
+        setAPIAccessToken()
+
+        // 대기 중인 요청 처리
+        refreshSubscribers.forEach((callback) => callback(access_token))
+        refreshSubscribers = []
+
+        // 실패한 요청 재시도
+        if (error.config) {
+          error.config.headers.authorization = `Bearer ${access_token}`
+          return API.request(error.config)
+        }
+      } catch (refreshError) {
+        console.error('Failed to refresh token:', refreshError)
+        logout() // Refresh 실패 시 로그아웃
+      } finally {
+        isRefreshing = false // Refresh 상태 초기화
+      }
     }
+
+    return Promise.reject(error) // 401 외 다른 에러는 그대로 전달
   }
-
-  return Promise.reject(error)
-}
-
-API.interceptors.request.use(requestInterceptor)
-API.interceptors.response.use((response) => response, authErrorInterceptor)
+)
 
 export {
   API,
   MAIN_ENDPOINT,
   TEST_ENDPOINT,
-  PAY_MAIN_ENDPOINT,
   API_ENDPOINT,
   updateApiBaseUrl,
   setAPIAccessToken,
