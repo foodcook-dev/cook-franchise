@@ -291,7 +291,7 @@ export default function Dashboard() {
                     })} */}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className='max-h-[350px] overflow-y-scroll'>
                   <RecentSales data={statisticData} />
                 </CardContent>
               </Card>

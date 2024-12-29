@@ -148,19 +148,19 @@ API.interceptors.response.use(
           refresh: refreshToken,
         })
 
-        const { access_token, refresh_token } = response.data
+        const { access, refresh } = response.data
 
         // 새로운 토큰 저장
-        setAccessToken(access_token, refresh_token)
+        setAccessToken(access, refresh)
         setAPIAccessToken()
 
         // 대기 중인 요청 처리
-        refreshSubscribers.forEach((callback) => callback(access_token))
+        refreshSubscribers.forEach((callback) => callback(access))
         refreshSubscribers = []
 
         // 실패한 요청 재시도
         if (error.config) {
-          error.config.headers.authorization = `Bearer ${access_token}`
+          error.config.headers.authorization = `Bearer ${access}`
           return API.request(error.config)
         }
       } catch (refreshError) {

@@ -13,7 +13,7 @@ import { DateStatisticData } from '@/types/product'
 export function RecentSales({ data }: { data: DateStatisticData | null }) {
   // const t = useTranslations('dashboard')
   return (
-    <Table>
+    <Table className=''>
       <TableHeader>
         <TableRow>
           {data?.table?.[0].map((item, index) => (

@@ -49,14 +49,14 @@ export default function Sidebar({
         {/* Header */}
         <Layout.Header
           sticky
-          className='z-50 flex justify-between px-4 py-3 shadow-sm md:px-4'
+          className='z-50 flex justify-between bg-primary px-4 py-3 shadow-sm md:px-4'
         >
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
               {franchiseInfo?.name ? (
-                <p className='truncate text-sm font-semibold'>
+                <p className='truncate text-sm font-semibold text-primary-foreground'>
                   {franchiseInfo?.name} 관리자 페이지
                 </p>
               ) : null}
@@ -80,7 +80,7 @@ export default function Sidebar({
         {/* Navigation links */}
         <Nav
           id='sidebar-menu'
-          className={`z-40 h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
+          className={`z-40 h-full flex-1 overflow-auto bg-primary text-primary-foreground ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
           links={sidelinks}
