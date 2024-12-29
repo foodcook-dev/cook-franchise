@@ -66,7 +66,7 @@ export default function Dashboard() {
   }
 
   const handleSubmitDate = async () => {
-    const today = new Date()
+    // const today = new Date()
     if (!startDate) {
       alert('시작 날짜를 선택해주세요.')
       return
@@ -80,10 +80,10 @@ export default function Dashboard() {
       return
     }
 
-    if (endDate > today) {
-      alert('종료 날짜는 오늘 날짜보다 미래일 수 없습니다.')
-      return
-    }
+    // if (endDate > today) {
+    //   alert('종료 날짜는 오늘 날짜보다 미래일 수 없습니다.')
+    //   return
+    // }
 
     console.log('startDate', startDate)
     console.log('endDate', endDate)
