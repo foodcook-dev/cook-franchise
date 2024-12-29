@@ -206,7 +206,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    // handleSelectButton('daily')
+    handleSelectButton('monthly')
   }, [])
 
   return (
