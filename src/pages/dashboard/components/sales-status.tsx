@@ -58,7 +58,7 @@ export function SalesStatus({ data }: { data: DateStatisticData | null }) {
           <XAxis
             // dataKey={(value) => format(new Date(value.date), 'MM/dd')}
             dataKey={(value) => {
-              if (value?.date.includes('w' || 'W')) {
+              if (value?.date.includes('w') || value?.date.includes('W')) {
                 return `${value.date}`
               } else {
                 return format(new Date(value.date), 'MM/dd')
