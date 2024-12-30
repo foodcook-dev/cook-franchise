@@ -103,7 +103,7 @@ export function DateSelect({
         </Button>
       </div>
 
-      <div className='my-3 flex justify-end'>
+      <div className='my-3 flex flex-wrap justify-end'>
         {/* <p className='mb-2'>분기별</p> */}
 
         {['daily', 'weekly', 'monthly'].map((period) => (
@@ -128,7 +128,7 @@ export function DateSelect({
           <Button
             key={quarter}
             variant={selectedButton === String(quarter) ? 'default' : 'outline'}
-            className='ml-2 w-[60px] pl-3 text-left font-normal'
+            className='mb-2 ml-2 w-[60px] pl-3 text-left font-normal'
             onClick={() => handleSelectButton(String(quarter))}
           >
             {quarter}분기

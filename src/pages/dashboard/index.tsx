@@ -37,10 +37,12 @@ import { getDateStatistic } from '@/controller/statistic'
 import { StatisticCard } from './components/statistic-card'
 import { DateStatisticData } from '@/types/product'
 import { SalesStatus } from './components/sales-status'
+import { useToast } from '@/components/ui/use-toast'
 // import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
   const t = useTranslations('dashboard')
+  const { toast } = useToast()
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const franchiseInfo = JSON.parse(
     localStorage.getItem('franchiseInfo') || '{}'
@@ -102,9 +104,18 @@ export default function Dashboard() {
       }
 
       console.log('response', response)
-    } catch (error) {
-      console.error('An error occurred:', error)
-      alert('날짜 조회 중 오류가 발생했습니다.')
+    } catch (error: unknown) {
+      const err = error as { response?: { status: number } }
+      // console.error('An error occurred:', error)
+      if (err?.response?.status === 400) {
+        toast({
+          variant: 'destructive',
+          description: '해당 기간에 대한 데이터가 없습니다.',
+        })
+
+        setStatisticData(null)
+        return
+      }
     }
   }
 
@@ -153,9 +164,18 @@ export default function Dashboard() {
       }
 
       console.log('response', response)
-    } catch (error) {
-      console.error('An error occurred:', error)
-      alert('날짜 조회 중 오류가 발생했습니다.')
+    } catch (error: unknown) {
+      const err = error as { response?: { status: number } }
+      // console.error('An error occurred:', error)
+      if (err?.response?.status === 400) {
+        toast({
+          variant: 'destructive',
+          description: '해당 기간에 대한 데이터가 없습니다.',
+        })
+
+        setStatisticData(null)
+        return
+      }
     }
   }
 
@@ -199,9 +219,18 @@ export default function Dashboard() {
       }
 
       console.log('response', response)
-    } catch (error) {
-      console.error('An error occurred:', error)
-      alert('날짜 조회 중 오류가 발생했습니다.')
+    } catch (error: unknown) {
+      const err = error as { response?: { status: number } }
+      // console.error('An error occurred:', error)
+      if (err?.response?.status === 400) {
+        toast({
+          variant: 'destructive',
+          description: '해당 기간에 대한 데이터가 없습니다.',
+        })
+
+        setStatisticData(null)
+        return
+      }
     }
   }
 
@@ -214,14 +243,13 @@ export default function Dashboard() {
       {/* ===== Top Heading ===== */}
       <Layout.Header>
         {/* <TopNav links={topNav} /> */}
-        {userInfo?.franchise?.ui_information?.logo_image ? (
+        {franchiseInfo?.ui?.logo_image ? (
           <img
-            src={userInfo?.franchise?.ui_information?.logo_image}
+            src={franchiseInfo?.ui?.logo_image}
             alt='Logo'
-            className='mt-6 h-auto w-[150px]'
+            className='h-10 w-auto'
           />
         ) : null}
-
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
 
