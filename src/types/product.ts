@@ -32,7 +32,7 @@ type DateStatisticData = {
       canceled_amount: number
     },
   ]
-  table: [[]]
+  table: [string[]]
   daily_stats: {
     string: {
       order_count: number
