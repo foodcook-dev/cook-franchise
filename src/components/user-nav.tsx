@@ -38,11 +38,11 @@ export function UserNav({ userInfo }: UserNavProps) {
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
             <p className='text-sm font-medium leading-none'>
-              {userInfo?.nickname}
-            </p>
-            <p className='text-xs leading-none text-muted-foreground'>
               {userInfo?.username}
             </p>
+            {/* <p className='text-xs leading-none text-muted-foreground'>
+              {userInfo?.username}
+            </p> */}
           </div>
         </DropdownMenuLabel>
 

@@ -5,8 +5,6 @@ import SkipToMain from './skip-to-main'
 import { useEffect } from 'react'
 import { initAPISettings } from '@/controller/api'
 
-// import { getUser } from '@/controller/user-auth'
-
 export default function AppShell() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')

@@ -54,7 +54,6 @@ const logout = async () => {
   removeAccessToken()
   await setAPIAccessToken()
   window.location.reload()
-  // await updateApiBaseUrl()
 }
 
 const refreshAccessToken = async () => {
