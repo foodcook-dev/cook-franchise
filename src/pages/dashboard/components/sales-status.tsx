@@ -57,11 +57,13 @@ export function SalesStatus({ data }: { data: DateStatisticData | null }) {
           <CartesianGrid vertical={false} />
           <XAxis
             // dataKey={(value) => format(new Date(value.date), 'MM/dd')}
-            dataKey={(value) =>
-              value?.date.includes('w' || 'W')
-                ? `${value.date}`
-                : format(new Date(value.date), 'MM/dd')
-            }
+            dataKey={(value) => {
+              if (value?.date.includes('w' || 'W')) {
+                return `${value.date}`
+              } else {
+                return format(new Date(value.date), 'MM/dd')
+              }
+            }}
             tickLine={false}
             axisLine={false}
             tickMargin={8}
