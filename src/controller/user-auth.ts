@@ -40,11 +40,16 @@ const login = async (id: string, password: string) => {
     await setAPIAccessToken()
 
     localStorage.setItem('userInfo', JSON.stringify(response.data?.user))
-    localStorage.setItem(
-      'franchiseInfo',
-      JSON.stringify(response.data?.franchise)
-    )
-    changeThemeColor()
+
+    if (response.data?.franchise) {
+      localStorage.setItem(
+        'franchiseInfo',
+        JSON.stringify(response.data?.franchise)
+      )
+
+      changeThemeColor()
+    }
+
     return true
   }
   return false

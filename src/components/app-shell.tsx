@@ -4,15 +4,17 @@ import useIsCollapsed from '@/hooks/use-is-collapsed'
 import SkipToMain from './skip-to-main'
 import { useEffect } from 'react'
 import { initAPISettings } from '@/controller/api'
+import { Franchise } from '@/types/users'
 
 export default function AppShell() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   // const [apiLoaded, setApiLoaded] = useState(false)
   const navigation = useNavigate()
-  const franchiseInfo = JSON.parse(
-    localStorage.getItem('franchiseInfo') || '{}'
-  )
+  const franchiseInfo: Franchise =
+    localStorage.getItem('franchiseInfo') !== undefined
+      ? JSON.parse(localStorage.getItem('franchiseInfo') || 'null')
+      : null
 
   useEffect(() => {
     initAPISettings()

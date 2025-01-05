@@ -38,15 +38,17 @@ import { StatisticCard } from './components/statistic-card'
 import { DateStatisticData } from '@/types/product'
 import { SalesStatus } from './components/sales-status'
 import { useToast } from '@/components/ui/use-toast'
+import { Franchise } from '@/types/users'
 // import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
   const t = useTranslations('dashboard')
   const { toast } = useToast()
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
-  const franchiseInfo = JSON.parse(
-    localStorage.getItem('franchiseInfo') || '{}'
-  )
+  const franchiseInfo: Franchise =
+    localStorage.getItem('franchiseInfo') !== undefined
+      ? JSON.parse(localStorage.getItem('franchiseInfo') || 'null')
+      : null
 
   const [statisticData, setStatisticData] = useState<DateStatisticData | null>(
     null
@@ -94,7 +96,7 @@ export default function Dashboard() {
 
     try {
       const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
       })
@@ -105,17 +107,20 @@ export default function Dashboard() {
 
       console.log('response', response)
     } catch (error: unknown) {
-      const err = error as { response?: { status: number } }
-      // console.error('An error occurred:', error)
-      if (err?.response?.status === 400) {
-        toast({
-          variant: 'destructive',
-          description: '해당 기간에 대한 데이터가 없습니다.',
-        })
-
-        setStatisticData(null)
-        return
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
       }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setStatisticData(null)
+      return
     }
   }
 
@@ -154,7 +159,7 @@ export default function Dashboard() {
     try {
       // 요청에 새로 계산한 날짜를 사용
       const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
         startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
         endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
       })
@@ -165,17 +170,20 @@ export default function Dashboard() {
 
       console.log('response', response)
     } catch (error: unknown) {
-      const err = error as { response?: { status: number } }
-      // console.error('An error occurred:', error)
-      if (err?.response?.status === 400) {
-        toast({
-          variant: 'destructive',
-          description: '해당 기간에 대한 데이터가 없습니다.',
-        })
-
-        setStatisticData(null)
-        return
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
       }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setStatisticData(null)
+      return
     }
   }
 
@@ -209,7 +217,7 @@ export default function Dashboard() {
 
     try {
       const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id : '',
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
         startDate: start ? format(start, 'yyyy-MM-dd') : '',
         endDate: end ? format(end, 'yyyy-MM-dd') : '',
       })
@@ -220,17 +228,20 @@ export default function Dashboard() {
 
       console.log('response', response)
     } catch (error: unknown) {
-      const err = error as { response?: { status: number } }
-      // console.error('An error occurred:', error)
-      if (err?.response?.status === 400) {
-        toast({
-          variant: 'destructive',
-          description: '해당 기간에 대한 데이터가 없습니다.',
-        })
-
-        setStatisticData(null)
-        return
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
       }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setStatisticData(null)
+      return
     }
   }
 

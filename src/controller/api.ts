@@ -4,10 +4,10 @@ import { logout, setAccessToken } from './user-auth'
 export const APP_VERSION = '1.0.7'
 
 // const DEV_FLAG = __DEV__;
-// const DEV_FLAG = false
-const DEV_FLAG = true
+const DEV_FLAG = false
+// const DEV_FLAG = true
 
-const MAIN_ENDPOINT = 'https://admin.xn--wv4b09focz31b.com'
+const MAIN_ENDPOINT = 'https://franchise.xn--wv4b09focz31b.com'
 const TEST_ENDPOINT = 'https://franchise.cookerp.shop'
 const API_ENDPOINT = DEV_FLAG ? TEST_ENDPOINT : MAIN_ENDPOINT
 
