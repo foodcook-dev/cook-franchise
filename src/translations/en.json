@@ -51,7 +51,8 @@
     "sales": "Sales",
     "active_now": "Active Now",
     "recent_sales": "Recent Sales",
-    "recent_sales_desc": "You made {amount} sales this month."
+    "recent_sales_desc": "You made {amount} sales this month.",
+    "product_sales_ranking": "Product Sales Ranking"
   },
   "error": {
     "404_title": "Oops! Page Not Found!",

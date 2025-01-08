@@ -55,7 +55,8 @@
     "sales": "판매",
     "active_now": "현재 활성",
     "recent_sales": "최근 판매",
-    "recent_sales_desc": "{amount}건의 판매를 기록했습니다."
+    "recent_sales_desc": "{amount}건의 판매를 기록했습니다.",
+    "product_sales_ranking": "상품 판매 순위"
   },
   "error": {
     "404_title": "이런! 페이지를 찾을 수 없습니다!",

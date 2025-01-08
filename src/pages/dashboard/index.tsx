@@ -450,12 +450,8 @@ export default function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>{t('recent_sales')}</CardTitle>
-                  <CardDescription>
-                    {/* {t('recent_sales_desc', {
-                      amount: statisticData?.counts?.total_order_count,
-                    })} */}
-                  </CardDescription>
+                  <CardTitle>{t('product_sales_ranking')}</CardTitle>
+                  <CardDescription></CardDescription>
                 </CardHeader>
                 <CardContent className='max-h-[500px] overflow-y-scroll'>
                   <ProductSales data={productStatisticData} />
