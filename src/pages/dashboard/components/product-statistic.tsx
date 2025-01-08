@@ -16,24 +16,28 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  //   ChartLegend,
+  //   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { DateStatisticData } from '@/types/product'
 import { PieSectorDataItem } from 'recharts/types/polar/Pie'
 
-const chartConfig = {
-  product_name: {
-    label: '상품명',
-    color: '--chart-2',
-  },
-  total_count: {
-    label: '총 수량',
-    color: '--chart-3',
-  },
-} satisfies ChartConfig
-
 export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
+  const chartConfig = {
+    product_name: {
+      label: '상품명',
+      color: '--chart-2',
+    },
+    total_count: {
+      label: '총 수량',
+      color: '--chart-3',
+    },
+  } satisfies ChartConfig
+
   const chartColors = [
     '#FF5733',
     '#33FF57',
@@ -62,26 +66,10 @@ export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
     '#2C3E50',
   ]
 
-  //   const getRandomColor = () => {
-  //     const letters = '0123456789ABCDEF'
-  //     let color = '#'
-  //     for (let i = 0; i < 6; i++) {
-  //       color += letters[Math.floor(Math.random() * 16)]
-  //     }
-  //     return color
-  //   }
-
   const chartDataWithColors = data?.chart.map((item, index) => ({
     ...item,
     fill: chartColors[index % chartColors.length], // 색상을 순환적으로 적용
   }))
-
-  //   const chartDataWithColors = data?.chart.map((item) => ({
-  //     ...item,
-  //     fill: getRandomColor(),
-  //   }))
-
-  console.log('chartDataWithColors', data)
 
   if (!data) {
     return (
@@ -96,7 +84,7 @@ export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
   }
 
   return (
-    <ResponsiveContainer width='100%' height={350}>
+    <ResponsiveContainer width='100%' height={500}>
       <ChartContainer config={chartConfig}>
         <PieChart>
           <ChartTooltip
@@ -107,12 +95,16 @@ export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
             data={chartDataWithColors}
             dataKey='total_count'
             nameKey='product_name'
-            innerRadius={60}
+            innerRadius={50}
             strokeWidth={5}
             activeIndex={0}
             activeShape={({ outerRadius = 0, ...props }: PieSectorDataItem) => (
               <Sector {...props} outerRadius={outerRadius + 10} />
             )}
+          />
+          <ChartLegend
+            content={<ChartLegendContent nameKey='product_name' />}
+            className='-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center'
           />
         </PieChart>
       </ChartContainer>

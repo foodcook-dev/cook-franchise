@@ -3,7 +3,7 @@ import {
   // IconBarrierBlock,
   // IconBoxSeam,
   // IconChartHistogram,
-  IconChecklist,
+  // IconChecklist,
   // IconComponents,
   // IconError404,
   // IconExclamationCircle,
@@ -41,12 +41,12 @@ export const sidelinks: SideLink[] = [
     href: '/',
     icon: <IconLayoutDashboard size={18} />,
   },
-  {
-    title: 'sidebar.tasks',
-    label: '3',
-    href: '/tasks',
-    icon: <IconChecklist size={18} />,
-  },
+  // {
+  //   title: 'sidebar.tasks',
+  //   label: '3',
+  //   href: '/tasks',
+  //   icon: <IconChecklist size={18} />,
+  // },
   // {
   //   title: 'sidebar.chats',
   //   label: '9',

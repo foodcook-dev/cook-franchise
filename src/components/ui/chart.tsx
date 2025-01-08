@@ -239,8 +239,8 @@ const ChartTooltipContent = React.forwardRef<
                         </span>
                       </div>
                       {item.value && (
-                        <span className='ml-1 font-mono font-medium tabular-nums text-foreground'>
-                          {item.value.toLocaleString()}개
+                        <span className='ml-2 font-mono font-medium tabular-nums text-foreground'>
+                          / {item.value.toLocaleString()}
                         </span>
                       )}
                     </div>
@@ -272,6 +272,16 @@ const ChartLegendContent = React.forwardRef<
   ) => {
     const { config } = useChart()
 
+    const truncatedValue = (
+      value: string | undefined,
+      maxLength: number = 10
+    ) => {
+      if (!value) return '' // 값이 없을 경우 빈 문자열 반환
+      return value.length > maxLength
+        ? `${value.slice(0, maxLength)}...`
+        : value
+    }
+
     if (!payload?.length) {
       return null
     }
@@ -288,6 +298,8 @@ const ChartLegendContent = React.forwardRef<
         {payload.map((item) => {
           const key = `${nameKey || item.dataKey || 'value'}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
+
+          console.log('itemConfig', itemConfig)
 
           return (
             <div
@@ -306,7 +318,8 @@ const ChartLegendContent = React.forwardRef<
                   }}
                 />
               )}
-              {itemConfig?.label}
+              {/* {itemConfig?.label} */}
+              {truncatedValue(item?.value)}
             </div>
           )
         })}

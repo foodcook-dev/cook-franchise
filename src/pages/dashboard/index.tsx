@@ -437,7 +437,7 @@ export default function Dashboard() {
 
           <TabsContent value='product_statistic' className='space-y-4'>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-3'>
+              <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
                   <div className='flex-row items-center '>
                     <CardTitle>{t('product_statistic')}</CardTitle>
@@ -448,7 +448,7 @@ export default function Dashboard() {
                   <ProductStatistic data={productStatisticData} />
                 </CardContent>
               </Card>
-              <Card className='col-span-1 lg:col-span-4'>
+              <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
                   <CardTitle>{t('recent_sales')}</CardTitle>
                   <CardDescription>
@@ -457,7 +457,7 @@ export default function Dashboard() {
                     })} */}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className='max-h-[350px] overflow-y-scroll'>
+                <CardContent className='max-h-[500px] overflow-y-scroll'>
                   <ProductSales data={productStatisticData} />
                 </CardContent>
               </Card>
