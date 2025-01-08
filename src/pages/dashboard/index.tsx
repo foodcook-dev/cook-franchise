@@ -21,24 +21,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // import { TopNav } from '@/components/top-nav'
 import { UserNav } from '@/components/user-nav'
 import { RecentSales } from './components/recent-sales'
-import { Overview } from './components/overview'
+
 import { useTranslations } from 'use-intl'
 import LanguageSwitch from '@/components/language-switch'
 // import { ProductChart } from './components/product-chart'
 // import { ProductSales } from './components/product-sales'
 
-import { productData } from '../tasks/data/products'
 // import { productColumns } from './components/product-columns'
 
-import { ProductSales } from './components/product-sales'
 import { DateSelect } from '@/components/ui/date-select'
 import { useEffect, useState } from 'react'
-import { getDateStatistic } from '@/controller/statistic'
+import {
+  getDateProductStatistic,
+  getDateStatistic,
+} from '@/controller/statistic'
 import { StatisticCard } from './components/statistic-card'
 import { DateStatisticData } from '@/types/product'
 import { SalesStatus } from './components/sales-status'
 import { useToast } from '@/components/ui/use-toast'
 import { Franchise } from '@/types/users'
+import { ProductStatistic } from './components/product-statistic'
+import { ProductSales } from './components/product-sales'
 // import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
@@ -53,6 +56,10 @@ export default function Dashboard() {
   const [statisticData, setStatisticData] = useState<DateStatisticData | null>(
     null
   )
+
+  const [productStatisticData, setProductStatisticData] =
+    useState<DateStatisticData | null>(null)
+
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
 
@@ -122,6 +129,35 @@ export default function Dashboard() {
       setStatisticData(null)
       return
     }
+
+    try {
+      const productResponse = await getDateProductStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+        startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
+        endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
+      })
+
+      if (productResponse) {
+        setProductStatisticData(productResponse)
+      }
+
+      console.log('response', productResponse)
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setProductStatisticData(null)
+      return
+    }
   }
 
   const handleSubmitPeriod = async (period: 'daily' | 'weekly' | 'monthly') => {
@@ -185,6 +221,36 @@ export default function Dashboard() {
       setStatisticData(null)
       return
     }
+
+    try {
+      // 요청에 새로 계산한 날짜를 사용
+      const productResponse = await getDateProductStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+        startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
+        endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
+      })
+
+      if (productResponse) {
+        setProductStatisticData(productResponse)
+      }
+
+      console.log('response', productResponse)
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setProductStatisticData(null)
+      return
+    }
   }
 
   const handleSubmitQuarter = async (quarter: number) => {
@@ -241,6 +307,35 @@ export default function Dashboard() {
       })
 
       setStatisticData(null)
+      return
+    }
+
+    try {
+      const productResponse = await getDateProductStatistic({
+        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+        startDate: start ? format(start, 'yyyy-MM-dd') : '',
+        endDate: end ? format(end, 'yyyy-MM-dd') : '',
+      })
+
+      if (productResponse) {
+        setProductStatisticData(productResponse)
+      }
+
+      console.log('response', productResponse)
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('An error occurred:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setProductStatisticData(null)
       return
     }
   }
@@ -303,7 +398,9 @@ export default function Dashboard() {
               <TabsTrigger value='sales_status'>
                 {t('sales_status')}
               </TabsTrigger>
-              {/* <TabsTrigger value='overview'>{t('overview')}</TabsTrigger> */}
+              <TabsTrigger value='product_statistic'>
+                {t('product_statistic')}
+              </TabsTrigger>
               {/* <TabsTrigger value='analytics'>{t('analytics')}</TabsTrigger> */}
             </TabsList>
           </div>
@@ -337,56 +434,30 @@ export default function Dashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value='overview' className='space-y-4'>
+          <TabsContent value='product_statistic' className='space-y-4'>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-4'>
+              <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
                   <div className='flex-row items-center '>
-                    <CardTitle>{t('overview')}</CardTitle>
+                    <CardTitle>{t('product_statistic')}</CardTitle>
                   </div>
                 </CardHeader>
 
                 <CardContent className='pl-2'>
-                  <Overview data={statisticData} />
+                  <ProductStatistic data={productStatisticData} />
                 </CardContent>
               </Card>
-              <Card className='col-span-1 lg:col-span-3'>
+              <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>{t('franchise_sales')}</CardTitle>
+                  <CardTitle>{t('recent_sales')}</CardTitle>
                   <CardDescription>
-                    {/* {t('franchise_sales_desc', {
-                      amount:
-                        statisticData?.result[0]?.total_revenue.toLocaleString(),
+                    {/* {t('recent_sales_desc', {
+                      amount: statisticData?.counts?.total_order_count,
                     })} */}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  {/* <FranchiseSales data={statisticData} /> */}
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value='analytics' className='space-y-4'>
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 h-[max-content] flex-col lg:col-span-4'>
-                <CardHeader>
-                  <CardTitle>{t('analytics')}</CardTitle>
-                </CardHeader>
-                <CardContent className='pl-2'>
-                  {/* <ProductChart data={statisticData} /> */}
-                </CardContent>
-              </Card>
-              <Card className='col-span-1 lg:col-span-3'>
-                <CardHeader>
-                  <CardTitle>{t('recent_sales_top_product')}</CardTitle>
-                  <CardDescription>
-                    {/* {t('recent_sales_desc', { amount: '265' })} */}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ProductSales data={productData} />
-                  {/* <DataTable data={tasks} columns={columns} /> */}
+                <CardContent className='max-h-[350px] overflow-y-scroll'>
+                  <ProductSales data={productStatisticData} />
                 </CardContent>
               </Card>
             </div>

@@ -2,47 +2,47 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatPrice } from '@/utils/format'
+import { DateStatisticData } from '@/types/product'
+// import { useTranslations } from 'use-intl'
 
-interface ProductSalesProps {
-  data: Array<{
-    id: string
-    title: string
-    unitPrice: number
-    count: number
-    totalPrice: number
-  }>
-}
-
-export function ProductSales({ data }: ProductSalesProps) {
+export function ProductSales({ data }: { data: DateStatisticData | null }) {
+  // const t = useTranslations('dashboard')
   return (
-    <Table>
+    <Table className=''>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-[70px]'>상품코드</TableHead>
-          <TableHead className='w-[150px] text-center lg:w-auto'>
-            상품명
-          </TableHead>
-          <TableHead>단가</TableHead>
-          <TableHead>수량</TableHead>
-          <TableHead>총금액</TableHead>
+          {data?.table?.[0].map((item, index) => (
+            <TableHead className='text-center' key={index}>
+              {item}
+            </TableHead>
+          ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((product) => (
-          <TableRow key={product.id}>
-            <TableCell>{product.id}</TableCell>
-            <TableCell>{product.title}</TableCell>
-            <TableCell>{formatPrice(product.unitPrice)}</TableCell>
-            <TableCell>{product.count}</TableCell>
-            <TableCell>{formatPrice(product.totalPrice)}</TableCell>
+        {data?.table?.slice(1).map((row, index) => (
+          <TableRow key={index}>
+            <TableCell className='text-center'>{row[0]}</TableCell>
+            <TableCell className='text-center'>{row[1]}</TableCell>
+            <TableCell className='text-center'>
+              {row[2]?.toLocaleString()}원
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+        <TableRow>
+          {/* <TableCell colSpan={4}>총 합계</TableCell> */}
+
+          <TableCell>
+            {/* {data?.result[0]?.total_revenue.toLocaleString()}원 */}
+          </TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   )
 }
