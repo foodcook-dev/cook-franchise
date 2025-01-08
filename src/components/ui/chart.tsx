@@ -299,8 +299,6 @@ const ChartLegendContent = React.forwardRef<
           const key = `${nameKey || item.dataKey || 'value'}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
-          console.log('itemConfig', itemConfig)
-
           return (
             <div
               key={item.value}

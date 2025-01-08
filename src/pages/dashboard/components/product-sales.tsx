@@ -27,8 +27,10 @@ export function ProductSales({ data }: { data: DateStatisticData | null }) {
         {data?.table?.slice(1).map((row, index) => (
           <TableRow key={index}>
             <TableCell className='text-center'>{row[0]}</TableCell>
-            <TableCell className='text-center'>{row[1]}</TableCell>
-            <TableCell className='text-center'>{row[2]}</TableCell>
+            <TableCell className='max-w-[100px] text-center'>
+              {row[1]}
+            </TableCell>
+            <TableCell className='text-center'>{row[2]}개</TableCell>
             <TableCell className='text-center'>
               {row[3]?.toLocaleString()}원
             </TableCell>
