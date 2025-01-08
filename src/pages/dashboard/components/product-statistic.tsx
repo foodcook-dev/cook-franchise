@@ -34,19 +34,54 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
-  const getRandomColor = () => {
-    const letters = '0123456789ABCDEF'
-    let color = '#'
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)]
-    }
-    return color
-  }
+  const chartColors = [
+    '#FF5733',
+    '#33FF57',
+    '#3357FF',
+    '#FF33A8',
+    '#FFC733',
+    '#33FFF5',
+    '#8E44AD',
+    '#27AE60',
+    '#2980B9',
+    '#F1C40F',
+    '#E74C3C',
+    '#1ABC9C',
+    '#9B59B6',
+    '#34495E',
+    '#2ECC71',
+    '#3498DB',
+    '#E67E22',
+    '#F39C12',
+    '#D35400',
+    '#C0392B',
+    '#BDC3C7',
+    '#7F8C8D',
+    '#16A085',
+    '#8E44AD',
+    '#2C3E50',
+  ]
 
-  const chartDataWithColors = data?.chart.map((item) => ({
+  //   const getRandomColor = () => {
+  //     const letters = '0123456789ABCDEF'
+  //     let color = '#'
+  //     for (let i = 0; i < 6; i++) {
+  //       color += letters[Math.floor(Math.random() * 16)]
+  //     }
+  //     return color
+  //   }
+
+  const chartDataWithColors = data?.chart.map((item, index) => ({
     ...item,
-    fill: getRandomColor(),
+    fill: chartColors[index % chartColors.length], // 색상을 순환적으로 적용
   }))
+
+  //   const chartDataWithColors = data?.chart.map((item) => ({
+  //     ...item,
+  //     fill: getRandomColor(),
+  //   }))
+
+  console.log('chartDataWithColors', data)
 
   if (!data) {
     return (

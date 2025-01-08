@@ -77,7 +77,7 @@ export default function Dashboard() {
   }
 
   const handleSubmitDate = async () => {
-    // const today = new Date()
+    const yesterday = addDays(new Date(), -1)
     if (!startDate) {
       alert('시작 날짜를 선택해주세요.')
       return
@@ -91,10 +91,10 @@ export default function Dashboard() {
       return
     }
 
-    // if (endDate > today) {
-    //   alert('종료 날짜는 오늘 날짜보다 미래일 수 없습니다.')
-    //   return
-    // }
+    if (endDate > yesterday) {
+      alert('하루 전까지 선택 가능합니다.')
+      return
+    }
 
     console.log('startDate', startDate)
     console.log('endDate', endDate)
@@ -162,6 +162,7 @@ export default function Dashboard() {
 
   const handleSubmitPeriod = async (period: 'daily' | 'weekly' | 'monthly') => {
     const today = new Date()
+    const yesterday = addDays(new Date(), -1)
 
     let newStartDate: Date | undefined
     let newEndDate: Date | undefined
@@ -169,19 +170,19 @@ export default function Dashboard() {
     switch (period) {
       case 'daily':
         newStartDate = addDays(today, -1)
-        newEndDate = today
+        newEndDate = yesterday
         break
 
       case 'weekly':
         newStartDate = startOfWeek(today)
         // newEndDate = endOfWeek(today)
-        newEndDate = today
+        newEndDate = yesterday
         break
 
       case 'monthly':
         newStartDate = startOfMonth(today)
         // newEndDate = endOfMonth(today)
-        newEndDate = today
+        newEndDate = yesterday
         break
 
       default:

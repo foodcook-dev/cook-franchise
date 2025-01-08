@@ -28,8 +28,9 @@ export function ProductSales({ data }: { data: DateStatisticData | null }) {
           <TableRow key={index}>
             <TableCell className='text-center'>{row[0]}</TableCell>
             <TableCell className='text-center'>{row[1]}</TableCell>
+            <TableCell className='text-center'>{row[2]}</TableCell>
             <TableCell className='text-center'>
-              {row[2]?.toLocaleString()}원
+              {row[3]?.toLocaleString()}원
             </TableCell>
           </TableRow>
         ))}
