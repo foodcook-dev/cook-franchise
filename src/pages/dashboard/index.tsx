@@ -6,6 +6,8 @@ import {
   // endOfMonth,
   format,
   addDays,
+  endOfWeek,
+  endOfMonth,
 } from 'date-fns'
 
 import {
@@ -175,14 +177,14 @@ export default function Dashboard() {
 
       case 'weekly':
         newStartDate = startOfWeek(today)
-        // newEndDate = endOfWeek(today)
-        newEndDate = yesterday
+        newEndDate = endOfWeek(yesterday)
+
         break
 
       case 'monthly':
         newStartDate = startOfMonth(today)
-        // newEndDate = endOfMonth(today)
-        newEndDate = yesterday
+        newEndDate = endOfMonth(yesterday)
+
         break
 
       default:
@@ -402,7 +404,6 @@ export default function Dashboard() {
               <TabsTrigger value='product_statistic'>
                 {t('product_statistic')}
               </TabsTrigger>
-              {/* <TabsTrigger value='analytics'>{t('analytics')}</TabsTrigger> */}
             </TabsList>
           </div>
 
