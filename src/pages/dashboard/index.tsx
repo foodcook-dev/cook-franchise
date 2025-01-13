@@ -6,8 +6,6 @@ import {
   // endOfMonth,
   format,
   addDays,
-  endOfWeek,
-  endOfMonth,
 } from 'date-fns'
 
 import {
@@ -94,7 +92,7 @@ export default function Dashboard() {
     }
 
     if (endDate > yesterday) {
-      alert('하루 전까지 선택 가능합니다.')
+      alert('오늘 날짜 기준 하루 전까지 검색 가능합니다.')
       return
     }
 
@@ -176,14 +174,16 @@ export default function Dashboard() {
         break
 
       case 'weekly':
-        newStartDate = startOfWeek(today)
-        newEndDate = endOfWeek(yesterday)
+        newStartDate = startOfWeek(yesterday)
+        newEndDate = yesterday
+        // newEndDate = endOfWeek(yesterday)
 
         break
 
       case 'monthly':
-        newStartDate = startOfMonth(today)
-        newEndDate = endOfMonth(yesterday)
+        newStartDate = startOfMonth(yesterday)
+        newEndDate = yesterday
+        // newEndDate = endOfMonth(yesterday)
 
         break
 
