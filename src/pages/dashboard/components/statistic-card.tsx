@@ -63,15 +63,15 @@ export function StatisticCard({ data }: StatisticProps) {
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
-            {t('expected_sales_incentives')}
+            {t('partial_refund')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className='text-right text-2xl font-bold'>
-            {data && data?.overall
+            {/* {data && data?.overall
               ? data?.overall?.incentive.toLocaleString()
-              : 0}
-            원
+              : 0} */}
+            0 원
           </div>
         </CardContent>
       </Card>
