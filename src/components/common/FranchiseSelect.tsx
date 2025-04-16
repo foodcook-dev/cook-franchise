@@ -85,6 +85,17 @@ export default function FranchiseSelect({
   }
 
   const handleStoreChange = async (storeId: string) => {
+    // console.log('storeId:', storeId)
+    if (storeId === 'all') {
+      setSelectedStore(null)
+      handleSubmitDate &&
+        handleSubmitDate({
+          franchiseId: selectedFranchise?.id,
+          storeInfo: { id: 'all', name: '전체' },
+        })
+      return
+    }
+
     const selected = storeList?.find(
       (store: { id: number }) => store.id.toString() === storeId
     )
@@ -148,6 +159,9 @@ export default function FranchiseSelect({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>가맹점 선택</SelectLabel>
+              <SelectItem key={'all'} value='all'>
+                전체
+              </SelectItem>
 
               {storeList?.map((store: { id: number; name: string }) => (
                 <SelectItem key={store.id} value={store.id.toString()}>

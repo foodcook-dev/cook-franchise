@@ -130,8 +130,9 @@ export default function Dashboard() {
 
     setSelectedButton(null)
 
-    console.log('selectedFranchise:', selectedFranchise)
+    // console.log('selectedFranchise:', selectedFranchise)
     // console.log('storeInfo:', storeInfo)
+    // console.log('selectedStore:', selectedStore)
     try {
       const response = await getDateFranchiseRevenueStatistic({
         franchiseId:
@@ -144,17 +145,20 @@ export default function Dashboard() {
         sales_company_id:
           franchiseId === 'all'
             ? ''
-            : storeInfo
-              ? storeInfo?.id
-              : selectedStore
-                ? selectedStore?.id
-                : '',
+            : storeInfo && storeInfo?.id === 'all'
+              ? ''
+              : storeInfo && storeInfo?.id !== 'all'
+                ? storeInfo?.id
+                : selectedStore
+                  ? selectedStore?.id
+                  : '',
 
         // sales_company_id: storeInfo
         //   ? storeInfo?.id
         //   : selectedStore
         //     ? selectedStore?.id
         //     : '',
+
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
       })
@@ -187,14 +191,17 @@ export default function Dashboard() {
             : selectedFranchise
               ? selectedFranchise?.id
               : '',
+
         sales_company_id:
           franchiseId === 'all'
             ? ''
-            : storeInfo
-              ? storeInfo?.id
-              : selectedStore
-                ? selectedStore?.id
-                : '',
+            : storeInfo && storeInfo?.id === 'all'
+              ? ''
+              : storeInfo && storeInfo?.id !== 'all'
+                ? storeInfo?.id
+                : selectedStore
+                  ? selectedStore?.id
+                  : '',
 
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
