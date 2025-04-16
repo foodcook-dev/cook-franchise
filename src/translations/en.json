@@ -2,6 +2,7 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "tasks": "Tasks",
+    "stock_management": "Stock Management",
     "chats": "Chats",
     "apps": "Apps",
     "authentication": "Authentication",

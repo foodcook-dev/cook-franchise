@@ -9,7 +9,7 @@ export function changeThemeColor() {
     if (franchiseInfo) {
       const parsedFranchiseInfo = JSON.parse(franchiseInfo)?.ui
 
-      console.log('parsedFranchiseInfo:', parsedFranchiseInfo)
+      // console.log('parsedFranchiseInfo:', parsedFranchiseInfo)
 
       if (!parsedFranchiseInfo) return
 
@@ -68,7 +68,7 @@ export function changeThemeColor() {
 
       document.documentElement.style.setProperty(
         '--accent',
-        parsedFranchiseInfo?.accent
+        parsedFranchiseInfo?.primary
       )
       document.documentElement.style.setProperty(
         '--accent-foreground',

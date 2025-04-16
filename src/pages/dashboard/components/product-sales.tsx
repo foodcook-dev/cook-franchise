@@ -7,11 +7,29 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { DateStatisticData } from '@/types/product'
+import { pieChartData } from '@/types/product'
+import { CircleAlert } from 'lucide-react'
 // import { useTranslations } from 'use-intl'
 
-export function ProductSales({ data }: { data: DateStatisticData | null }) {
+export function ProductSales({ data }: { data: pieChartData | null }) {
   // const t = useTranslations('dashboard')
+
+  if (
+    !data?.table ||
+    data.table.length === undefined ||
+    data.table.length === (1 as number)
+  ) {
+    return (
+      <div
+        className='my-4 items-center justify-center'
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <CircleAlert className='text-muted' />
+        <p className='py-2 text-muted'>데이터가 없어요</p>
+      </div>
+    )
+  }
+
   return (
     <Table className=''>
       <TableHeader>

@@ -1,7 +1,7 @@
 import { API, setAPIAccessToken } from '@/controller/api'
 import { changeThemeColor } from '@/utils/changeThemeColor'
 
-const setAccessToken = (accessToken: string, refreshToken: string) => {
+const setAccessToken = async (accessToken: string, refreshToken: string) => {
   try {
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('refreshToken', refreshToken)
@@ -35,7 +35,7 @@ const removeAccessToken = () => {
 const login = async (id: string, password: string) => {
   const response = await API.post(`/user/login/`, { username: id, password })
   if (response.status === 200) {
-    console.log('login', response.data)
+    // console.log('login', response.data)
     await setAccessToken(response.data['access'], response.data['refresh'])
     await setAPIAccessToken()
 
@@ -58,6 +58,7 @@ const login = async (id: string, password: string) => {
 const logout = async () => {
   removeAccessToken()
   await setAPIAccessToken()
+
   window.location.reload()
 }
 

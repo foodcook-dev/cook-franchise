@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Search } from '@/components/search'
+// import { Search } from '@/components/search'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // import ThemeSwitch from '@/components/theme-switch'
 // import { TopNav } from '@/components/top-nav'
@@ -23,7 +23,7 @@ import { UserNav } from '@/components/user-nav'
 import { RecentSales } from './components/recent-sales'
 
 import { useTranslations } from 'use-intl'
-import LanguageSwitch from '@/components/language-switch'
+// import LanguageSwitch from '@/components/language-switch'
 // import { ProductChart } from './components/product-chart'
 // import { ProductSales } from './components/product-sales'
 
@@ -32,16 +32,29 @@ import LanguageSwitch from '@/components/language-switch'
 import { DateSelect } from '@/components/ui/date-select'
 import { useEffect, useState } from 'react'
 import {
-  getDateProductStatistic,
-  getDateStatistic,
+  getDateFranchiseProductStatistic,
+  getDateFranchiseRevenueStatistic,
 } from '@/controller/statistic'
 import { StatisticCard } from './components/statistic-card'
-import { DateStatisticData } from '@/types/product'
+import { DateStatisticData, pieChartData } from '@/types/product'
 import { SalesStatus } from './components/sales-status'
 import { useToast } from '@/components/ui/use-toast'
 import { Franchise } from '@/types/users'
 import { ProductStatistic } from './components/product-statistic'
 import { ProductSales } from './components/product-sales'
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectLabel,
+//   SelectTrigger,
+//   SelectValue,
+// } from '@/components/ui/select'
+import FranchiseSelect from '@/components/common/FranchiseSelect'
+// import { getFranchiseList, getStoreList } from '@/controller/franchise'
+import useAppStore from '@/stores/store'
+
 // import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
@@ -58,12 +71,22 @@ export default function Dashboard() {
   )
 
   const [productStatisticData, setProductStatisticData] =
-    useState<DateStatisticData | null>(null)
+    useState<pieChartData | null>(null)
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
 
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
+
+  // new franchise api
+  // const [franchiseList, setFranchiseList] = useState<[]>([])
+  const selectedFranchise = useAppStore((state) => state.selectedFranchise)
+  // const setSelectedFranchise = useAppStore(
+  //   (state) => state.setSelectedFranchise
+  // )
+  const selectedStore = useAppStore((state) => state.selectedStore)
+  // const setSelectedStore = useAppStore((state) => state.setSelectedStore)
+  // const [storeList, setStoreList] = useState<[]>([])
 
   const handleSelectButton = (value: string) => {
     setSelectedButton(value)
@@ -76,7 +99,13 @@ export default function Dashboard() {
     }
   }
 
-  const handleSubmitDate = async () => {
+  const handleSubmitDate = async ({
+    franchiseId,
+    storeInfo,
+  }: {
+    franchiseId?: string | null
+    storeInfo?: { id: string; name: string } | null
+  }) => {
     const yesterday = addDays(new Date(), -1)
     if (!startDate) {
       alert('시작 날짜를 선택해주세요.')
@@ -96,14 +125,36 @@ export default function Dashboard() {
       return
     }
 
-    console.log('startDate', startDate)
-    console.log('endDate', endDate)
+    // console.log('startDate', startDate)
+    // console.log('endDate', endDate)
 
     setSelectedButton(null)
 
+    console.log('selectedFranchise:', selectedFranchise)
+    // console.log('storeInfo:', storeInfo)
     try {
-      const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const response = await getDateFranchiseRevenueStatistic({
+        franchiseId:
+          franchiseId === 'all'
+            ? ''
+            : selectedFranchise
+              ? selectedFranchise?.id
+              : '',
+
+        sales_company_id:
+          franchiseId === 'all'
+            ? ''
+            : storeInfo
+              ? storeInfo?.id
+              : selectedStore
+                ? selectedStore?.id
+                : '',
+
+        // sales_company_id: storeInfo
+        //   ? storeInfo?.id
+        //   : selectedStore
+        //     ? selectedStore?.id
+        //     : '',
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
       })
@@ -111,8 +162,6 @@ export default function Dashboard() {
       if (response) {
         setStatisticData(response)
       }
-
-      console.log('response', response)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -120,19 +169,33 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
       })
 
       setStatisticData(null)
-      return
+      // return
     }
 
     try {
-      const productResponse = await getDateProductStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const productResponse = await getDateFranchiseProductStatistic({
+        franchiseId:
+          franchiseId === 'all'
+            ? ''
+            : selectedFranchise
+              ? selectedFranchise?.id
+              : '',
+        sales_company_id:
+          franchiseId === 'all'
+            ? ''
+            : storeInfo
+              ? storeInfo?.id
+              : selectedStore
+                ? selectedStore?.id
+                : '',
+
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
       })
@@ -140,8 +203,6 @@ export default function Dashboard() {
       if (productResponse) {
         setProductStatisticData(productResponse)
       }
-
-      console.log('response', productResponse)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -149,14 +210,14 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
       })
 
       setProductStatisticData(null)
-      return
+      // return
     }
   }
 
@@ -196,18 +257,15 @@ export default function Dashboard() {
     setEndDate(newEndDate)
 
     try {
-      // 요청에 새로 계산한 날짜를 사용
-      const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const response = await getDateFranchiseRevenueStatistic({
+        franchiseId: selectedFranchise ? selectedFranchise?.id : '',
+        sales_company_id: selectedStore ? selectedStore?.id : '',
         startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
         endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
       })
-
       if (response) {
         setStatisticData(response)
       }
-
-      console.log('response', response)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -215,7 +273,7 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
@@ -226,9 +284,9 @@ export default function Dashboard() {
     }
 
     try {
-      // 요청에 새로 계산한 날짜를 사용
-      const productResponse = await getDateProductStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const productResponse = await getDateFranchiseProductStatistic({
+        franchiseId: selectedFranchise ? selectedFranchise?.id : '',
+        sales_company_id: selectedStore ? selectedStore?.id : '',
         startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
         endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
       })
@@ -236,8 +294,6 @@ export default function Dashboard() {
       if (productResponse) {
         setProductStatisticData(productResponse)
       }
-
-      console.log('response', productResponse)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -245,7 +301,7 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
@@ -285,8 +341,9 @@ export default function Dashboard() {
     setEndDate(end)
 
     try {
-      const response = await getDateStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const response = await getDateFranchiseRevenueStatistic({
+        franchiseId: selectedFranchise ? selectedFranchise?.id : '',
+        sales_company_id: selectedStore ? selectedStore?.id : '',
         startDate: start ? format(start, 'yyyy-MM-dd') : '',
         endDate: end ? format(end, 'yyyy-MM-dd') : '',
       })
@@ -294,8 +351,6 @@ export default function Dashboard() {
       if (response) {
         setStatisticData(response)
       }
-
-      console.log('response', response)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -303,7 +358,7 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
@@ -314,8 +369,9 @@ export default function Dashboard() {
     }
 
     try {
-      const productResponse = await getDateProductStatistic({
-        franchiseId: franchiseInfo ? franchiseInfo?.id.toString() : '',
+      const productResponse = await getDateFranchiseProductStatistic({
+        franchiseId: selectedFranchise ? selectedFranchise?.id : '',
+        sales_company_id: selectedStore ? selectedStore?.id : '',
         startDate: start ? format(start, 'yyyy-MM-dd') : '',
         endDate: end ? format(end, 'yyyy-MM-dd') : '',
       })
@@ -323,8 +379,6 @@ export default function Dashboard() {
       if (productResponse) {
         setProductStatisticData(productResponse)
       }
-
-      console.log('response', productResponse)
     } catch (error: unknown) {
       const err = error as {
         response?: {
@@ -332,7 +386,7 @@ export default function Dashboard() {
           data: { detail: string }
         }
       }
-      console.error('An error occurred:', err?.response?.data.detail)
+      console.error('에러:', err?.response?.data.detail)
       toast({
         variant: 'destructive',
         description: err?.response?.data.detail,
@@ -359,11 +413,14 @@ export default function Dashboard() {
             className='h-10 w-auto'
           />
         ) : null}
+
+        <FranchiseSelect handleSubmitDate={handleSubmitDate} />
+
         <div className='ml-auto flex items-center space-x-4'>
-          <Search />
+          {/* <Search /> */}
 
           {/* <ThemeSwitch /> */}
-          <LanguageSwitch />
+          {/* <LanguageSwitch /> */}
           <UserNav userInfo={userInfo} />
         </div>
       </Layout.Header>
@@ -391,7 +448,7 @@ export default function Dashboard() {
           className='space-y-4'
         >
           <div>
-            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
               <StatisticCard data={statisticData} />
             </div>
           </div>

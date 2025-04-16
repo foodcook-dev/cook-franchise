@@ -17,7 +17,13 @@ interface DateSelectProps {
   setStartDate: (startDate: Date | undefined) => void
   endDate: Date | undefined
   setEndDate: (endDate: Date | undefined) => void
-  handleSubmitDate?: () => void
+  handleSubmitDate?: ({
+    franchiseId,
+    storeInfo,
+  }: {
+    franchiseId?: string | null
+    storeInfo?: { id: string; name: string } | null
+  }) => void
   handleSubmitQuarter?: (quarter: number) => void
   selectedButton: string | null
   handleSubmitPeriod?: (period: 'daily' | 'weekly' | 'monthly') => void
@@ -97,7 +103,10 @@ export function DateSelect({
         <Button
           variant={'default'}
           className='ml-2 w-[60px] pl-3 text-left font-normal'
-          onClick={handleSubmitDate}
+          onClick={() =>
+            handleSubmitDate &&
+            handleSubmitDate({ storeInfo: undefined, franchiseId: '' })
+          }
         >
           <span>적용</span>
         </Button>

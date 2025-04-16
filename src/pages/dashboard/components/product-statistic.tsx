@@ -23,10 +23,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import { DateStatisticData } from '@/types/product'
+import { pieChartData } from '@/types/product'
 import { PieSectorDataItem } from 'recharts/types/polar/Pie'
 
-export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
+export function ProductStatistic({ data }: { data: pieChartData | null }) {
+  // console.log('ProductStatistic data:', data)
   const chartConfig = {
     product_name: {
       label: '상품명',
@@ -71,7 +72,11 @@ export function ProductStatistic({ data }: { data: DateStatisticData | null }) {
     fill: chartColors[index % chartColors.length], // 색상을 순환적으로 적용
   }))
 
-  if (!data) {
+  if (
+    !data?.chart ||
+    data.chart.length === undefined ||
+    data.chart.length === (0 as number)
+  ) {
     return (
       <div
         className='my-4 items-center justify-center'

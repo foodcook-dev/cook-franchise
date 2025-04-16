@@ -12,6 +12,7 @@ import { useTranslations } from 'use-intl'
 import { UserFull } from '@/types/users'
 import { IconUser } from '@tabler/icons-react'
 import { logout } from '@/controller/user-auth'
+import useAppStore from '@/stores/store'
 // import { useNavigate } from 'react-router-dom'
 // import { changeThemeColor } from '@/utils/changeThemeColor'
 
@@ -21,6 +22,7 @@ interface UserNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function UserNav({ userInfo }: UserNavProps) {
   const t = useTranslations('userNav')
+  const store = useAppStore.getState()
   // const navigate = useNavigate()
 
   return (
@@ -50,7 +52,8 @@ export function UserNav({ userInfo }: UserNavProps) {
         <DropdownMenuItem
           onClick={async () => {
             await logout()
-
+            store.reset()
+            sessionStorage.removeItem('franchise-selected-values')
             // changeThemeColor()
             window.location.reload()
             // navigate('/login')

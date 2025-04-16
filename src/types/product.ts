@@ -1,3 +1,21 @@
+type pieChartData = {
+  chart: [
+    {
+      date: string
+      paid_amount: number
+      canceled_amount: number
+    },
+  ]
+  franchise: {
+    id: number
+    name: string
+    headquarters_address: string | null
+    contact_email: string | null
+    contact_phone: null
+  }
+  table: [string[]]
+}
+
 type DateStatisticData = {
   franchise: {
     id: number
@@ -42,4 +60,4 @@ type DateStatisticData = {
     }
   }
 }
-export type { DateStatisticData }
+export type { pieChartData, DateStatisticData }

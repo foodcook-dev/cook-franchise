@@ -75,7 +75,7 @@ export function StatisticCard({ data }: StatisticProps) {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      {/* <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
             {t('excellent_franchise_store')} /{' '}
@@ -97,11 +97,9 @@ export function StatisticCard({ data }: StatisticProps) {
               : 0}
             원
           </div>
-          {/* <p className='text-xs text-muted-foreground'>
-            {t('since_last_hour', { amount: '+201' })}
-          </p> */}
+   
         </CardContent>
-      </Card>
+      </Card> */}
     </>
   )
 }

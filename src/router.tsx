@@ -55,6 +55,12 @@ const router = createBrowserRouter(
           }),
         },
         {
+          path: 'stock-management',
+          lazy: async () => ({
+            Component: (await import('@/pages/stock-management')).default,
+          }),
+        },
+        {
           path: 'tasks',
           lazy: async () => ({
             Component: (await import('@/pages/tasks')).default,

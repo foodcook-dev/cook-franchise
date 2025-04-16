@@ -39,12 +39,12 @@ async function initAPISettings() {
 }
 
 function requestInterceptor(config: InternalAxiosRequestConfig) {
-  console.log(
-    'axios:request:',
-    config.baseURL,
-    config.url,
-    config.headers?.authorization?.toString().slice(0, 20) + '...'
-  )
+  // console.log(
+  //   'axios:request:',
+  //   config.baseURL,
+  //   config.url
+  //   config.headers?.authorization?.toString().slice(0, 20) + '...'
+  // )
   return config
 }
 
@@ -91,8 +91,10 @@ API.interceptors.response.use(
 
         const { access, refresh } = response.data
 
+        // console.log('Token refreshed:', access, refresh)
+
         // 새로운 토큰 저장
-        setAccessToken(access, refresh)
+        await setAccessToken(access, refresh)
         setAPIAccessToken()
 
         // 대기 중인 요청 처리

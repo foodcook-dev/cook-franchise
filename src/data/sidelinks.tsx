@@ -1,4 +1,6 @@
 import {
+  IconCheckupList,
+  // IconCheckupList,
   // IconApps,
   // IconBarrierBlock,
   // IconBoxSeam,
@@ -40,6 +42,12 @@ export const sidelinks: SideLink[] = [
     label: '',
     href: '/',
     icon: <IconLayoutDashboard size={18} />,
+  },
+  {
+    title: 'sidebar.stock_management',
+    label: '',
+    href: '/stock-management',
+    icon: <IconCheckupList size={18} />,
   },
   // {
   //   title: 'sidebar.tasks',
