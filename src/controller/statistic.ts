@@ -41,7 +41,7 @@ const getDateFranchiseProductStatistic = async ({
   endDate,
 }: {
   franchiseId?: string
-  sales_company_id?: string
+  sales_company_id?: string | null
   startDate: string
   endDate: string
 }) => {

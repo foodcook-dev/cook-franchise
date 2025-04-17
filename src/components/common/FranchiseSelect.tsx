@@ -18,7 +18,7 @@ type FranchiseSelectProps = {
     franchiseId,
     storeInfo,
   }: {
-    franchiseId?: string
+    franchiseId?: string | null | undefined
     storeInfo?: { id: string; name: string } | null
   }) => void
 }
@@ -73,9 +73,13 @@ export default function FranchiseSelect({
       (franchise: { id: number }) => franchise.id.toString() === franchiseId
     )
 
+    console.log('selected:', selected)
+
     if (selected) {
       setSelectedFranchise(selected)
       setSelectedStore(null)
+      handleSubmitDate &&
+        handleSubmitDate({ franchiseId: franchiseId, storeInfo: null })
     }
     const result = await getStoreList(franchiseId)
 
@@ -116,13 +120,13 @@ export default function FranchiseSelect({
     if (selectedFranchise) {
       handleFranchiseChange(selectedFranchise.id.toString())
     }
-  }, [selectedFranchise])
+  }, [])
 
   useEffect(() => {
     if (selectedStore) {
       handleStoreChange(selectedStore.id.toString())
     }
-  }, [selectedStore])
+  }, [])
 
   return (
     <>

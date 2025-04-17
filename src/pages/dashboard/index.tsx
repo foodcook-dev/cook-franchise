@@ -135,23 +135,34 @@ export default function Dashboard() {
     // console.log('selectedStore:', selectedStore)
     try {
       const response = await getDateFranchiseRevenueStatistic({
+        // franchiseId:
+        //   franchiseId === 'all'
+        //     ? ''
+        //     : selectedFranchise
+        //       ? selectedFranchise?.id
+        //       : '',
+
         franchiseId:
-          franchiseId === 'all'
+          franchiseId && franchiseId === 'all'
             ? ''
-            : selectedFranchise
-              ? selectedFranchise?.id
-              : '',
+            : franchiseId && franchiseId !== 'all'
+              ? franchiseId
+              : selectedFranchise
+                ? selectedFranchise?.id
+                : '',
 
         sales_company_id:
-          franchiseId === 'all'
+          franchiseId && franchiseId === 'all'
             ? ''
             : storeInfo && storeInfo?.id === 'all'
               ? ''
               : storeInfo && storeInfo?.id !== 'all'
                 ? storeInfo?.id
-                : selectedStore
-                  ? selectedStore?.id
-                  : '',
+                : !storeInfo
+                  ? null
+                  : selectedStore
+                    ? selectedStore?.id
+                    : '',
 
         // sales_company_id: storeInfo
         //   ? storeInfo?.id
@@ -186,22 +197,26 @@ export default function Dashboard() {
     try {
       const productResponse = await getDateFranchiseProductStatistic({
         franchiseId:
-          franchiseId === 'all'
+          franchiseId && franchiseId === 'all'
             ? ''
-            : selectedFranchise
-              ? selectedFranchise?.id
-              : '',
+            : franchiseId && franchiseId !== 'all'
+              ? franchiseId
+              : selectedFranchise
+                ? selectedFranchise?.id
+                : '',
 
         sales_company_id:
-          franchiseId === 'all'
+          franchiseId && franchiseId === 'all'
             ? ''
             : storeInfo && storeInfo?.id === 'all'
               ? ''
               : storeInfo && storeInfo?.id !== 'all'
                 ? storeInfo?.id
-                : selectedStore
-                  ? selectedStore?.id
-                  : '',
+                : !storeInfo
+                  ? null
+                  : selectedStore
+                    ? selectedStore?.id
+                    : '',
 
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
