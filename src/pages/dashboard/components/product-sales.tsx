@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/table'
 import { pieChartData } from '@/types/product'
 import { CircleAlert } from 'lucide-react'
-// import { useTranslations } from 'use-intl'
 
 export function ProductSales({ data }: { data: pieChartData | null }) {
   // const t = useTranslations('dashboard')
@@ -49,9 +48,7 @@ export function ProductSales({ data }: { data: pieChartData | null }) {
               {row[1]}
             </TableCell>
             <TableCell className='text-center'>{row[2]}개</TableCell>
-            <TableCell className='text-center'>
-              {row[3]}
-            </TableCell>
+            <TableCell className='text-center'>{row[3]}</TableCell>
             <TableCell className='text-center'>
               {row[4]?.toLocaleString()}원
             </TableCell>
