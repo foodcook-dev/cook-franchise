@@ -49,6 +49,12 @@ export function RecentSales({ data }: { data: DateStatisticData | null }) {
             <TableCell className='text-center'>
               {row[4].toLocaleString()}원
             </TableCell>
+            <TableCell className='text-center'>
+              {row[5].toLocaleString()}원
+            </TableCell>
+            <TableCell className='text-center'>
+              {row[6].toLocaleString()}원
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

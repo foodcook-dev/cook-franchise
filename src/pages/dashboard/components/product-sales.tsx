@@ -48,12 +48,8 @@ export function ProductSales({ data }: { data: pieChartData | null }) {
               {row[1]}
             </TableCell>
             <TableCell className='text-center'>{row[2]}개</TableCell>
-            <TableCell className='text-center'>{row[3]}</TableCell>
             <TableCell className='text-center'>
-              {row[4]?.toLocaleString()}원
-            </TableCell>
-            <TableCell className='text-center'>
-              {row[5]?.toLocaleString()}원
+              {row[3]?.toLocaleString()}원
             </TableCell>
           </TableRow>
         ))}
