@@ -2,7 +2,7 @@
 import {
   ColumnDef,
   // ColumnFiltersState,
-  // SortingState,
+  SortingState,
   // VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -10,7 +10,7 @@ import {
   // getFacetedUniqueValues,
   // getFilteredRowModel,
   // getPaginationRowModel,
-  // getSortedRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 
@@ -22,9 +22,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import React from 'react'
 
 // import { DataTablePagination } from '../components/data-table-pagination'
-// import { DataTableToolbar } from '../components/data-table-toolbar'
+import { DataTableToolbar } from '../components/data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,15 +36,23 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([])
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting,
+    },
+
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
     <div className='space-y-4'>
-      {/* <DataTableToolbar table={table} /> */}
+      <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>

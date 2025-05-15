@@ -11,9 +11,18 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 
+declare module '@tanstack/react-table' {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends unknown, TValue> {
+    title?: string
+  }
+}
+
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
 }
+
+// Define custom column meta type
 
 export function DataTableViewOptions<TData>({
   table,
@@ -27,11 +36,11 @@ export function DataTableViewOptions<TData>({
           className='ml-auto hidden h-8 lg:flex'
         >
           <MixerHorizontalIcon className='mr-2 h-4 w-4' />
-          View
+          필터
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel>필터</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
@@ -47,7 +56,7 @@ export function DataTableViewOptions<TData>({
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {column.columnDef.meta?.title || column.id}
               </DropdownMenuCheckboxItem>
             )
           })}

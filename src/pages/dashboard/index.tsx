@@ -34,9 +34,14 @@ import { useEffect, useState } from 'react'
 import {
   getDateFranchiseProductStatistic,
   getDateFranchiseRevenueStatistic,
+  getDateFranchiseSalesCompanyStatistic,
 } from '@/controller/statistic'
 import { StatisticCard } from './components/statistic-card'
-import { DateStatisticData, pieChartData } from '@/types/product'
+import {
+  DateSalesCompanyStatisticData,
+  DateStatisticData,
+  pieChartData,
+} from '@/types/product'
 import { SalesStatus } from './components/sales-status'
 import { useToast } from '@/components/ui/use-toast'
 import { Franchise } from '@/types/users'
@@ -72,6 +77,9 @@ export default function Dashboard() {
 
   const [productStatisticData, setProductStatisticData] =
     useState<pieChartData | null>(null)
+
+  const [salesCompanyStatisticData, setSalesCompanyStatisticData] =
+    useState<DateSalesCompanyStatisticData | null>(null)
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
@@ -125,23 +133,10 @@ export default function Dashboard() {
       return
     }
 
-    // console.log('startDate', startDate)
-    // console.log('endDate', endDate)
-
     setSelectedButton(null)
 
-    // console.log('selectedFranchise:', selectedFranchise)
-    // console.log('storeInfo:', storeInfo)
-    // console.log('selectedStore:', selectedStore)
     try {
       const response = await getDateFranchiseRevenueStatistic({
-        // franchiseId:
-        //   franchiseId === 'all'
-        //     ? ''
-        //     : selectedFranchise
-        //       ? selectedFranchise?.id
-        //       : '',
-
         franchiseId:
           franchiseId && franchiseId === 'all'
             ? ''
@@ -163,12 +158,6 @@ export default function Dashboard() {
                   : selectedStore
                     ? selectedStore?.id
                     : '',
-
-        // sales_company_id: storeInfo
-        //   ? storeInfo?.id
-        //   : selectedStore
-        //     ? selectedStore?.id
-        //     : '',
 
         startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
         endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
@@ -239,6 +228,41 @@ export default function Dashboard() {
       })
 
       setProductStatisticData(null)
+      // return
+    }
+
+    try {
+      const response = await getDateFranchiseSalesCompanyStatistic({
+        franchiseId:
+          franchiseId && franchiseId === 'all'
+            ? franchiseInfo?.id?.toString()
+            : franchiseId && franchiseId !== 'all'
+              ? franchiseId
+              : selectedFranchise
+                ? selectedFranchise?.id
+                : '',
+
+        startDate: startDate ? format(startDate, 'yyyy-MM-dd') : '',
+        endDate: endDate ? format(endDate, 'yyyy-MM-dd') : '',
+      })
+
+      if (response) {
+        setSalesCompanyStatisticData(response)
+      }
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('에러:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setSalesCompanyStatisticData(null)
       // return
     }
   }
@@ -332,6 +356,36 @@ export default function Dashboard() {
       setProductStatisticData(null)
       return
     }
+
+    try {
+      const response = await getDateFranchiseSalesCompanyStatistic({
+        franchiseId: selectedFranchise
+          ? selectedFranchise?.id
+          : franchiseInfo?.id?.toString(),
+
+        startDate: newStartDate ? format(newStartDate, 'yyyy-MM-dd') : '',
+        endDate: newEndDate ? format(newEndDate, 'yyyy-MM-dd') : '',
+      })
+
+      if (response) {
+        setSalesCompanyStatisticData(response)
+      }
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('에러:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setSalesCompanyStatisticData(null)
+      // return
+    }
   }
 
   const handleSubmitQuarter = async (quarter: number) => {
@@ -387,7 +441,7 @@ export default function Dashboard() {
       })
 
       setStatisticData(null)
-      return
+      // return
     }
 
     try {
@@ -415,7 +469,37 @@ export default function Dashboard() {
       })
 
       setProductStatisticData(null)
-      return
+      // return
+    }
+
+    try {
+      const response = await getDateFranchiseSalesCompanyStatistic({
+        franchiseId: selectedFranchise
+          ? selectedFranchise?.id
+          : franchiseInfo?.id?.toString(),
+
+        startDate: start ? format(start, 'yyyy-MM-dd') : '',
+        endDate: end ? format(end, 'yyyy-MM-dd') : '',
+      })
+
+      if (response) {
+        setSalesCompanyStatisticData(response)
+      }
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          status: number
+          data: { detail: string }
+        }
+      }
+      console.error('에러:', err?.response?.data.detail)
+      toast({
+        variant: 'destructive',
+        description: err?.response?.data.detail,
+      })
+
+      setSalesCompanyStatisticData(null)
+      // return
     }
   }
 
@@ -483,6 +567,10 @@ export default function Dashboard() {
               <TabsTrigger value='product_statistic'>
                 {t('product_statistic')}
               </TabsTrigger>
+
+              <TabsTrigger value='sales_company_statistic'>
+                {t('sales_company_statistic')}
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -530,6 +618,31 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent className='max-h-[500px] overflow-y-scroll'>
                   <ProductSales data={productStatisticData} />
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value='sales_company_statistic' className='space-y-4'>
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
+              {/* <Card className='col-span-1 lg:col-span-4'>
+                <CardHeader>
+                  <div className='flex-row items-center '>
+                    <CardTitle>{t('sales_company_statistic')}</CardTitle>
+                  </div>
+                </CardHeader>
+
+                <CardContent className='pl-2'>
+                  <ProductStatistic data={productStatisticData} />
+                </CardContent>
+              </Card> */}
+              <Card className='col-span-1 lg:col-span-7'>
+                <CardHeader>
+                  <CardTitle>{t('sales_company_statistic')}</CardTitle>
+                  <CardDescription></CardDescription>
+                </CardHeader>
+                <CardContent className='max-h-[500px] overflow-y-scroll'>
+                  <ProductSales data={salesCompanyStatisticData} />
                 </CardContent>
               </Card>
             </div>

@@ -1,3 +1,5 @@
+import { Franchise } from './users'
+
 type pieChartData = {
   chart: [
     {
@@ -60,4 +62,9 @@ type DateStatisticData = {
     }
   }
 }
-export type { pieChartData, DateStatisticData }
+
+type DateSalesCompanyStatisticData = {
+  franchise: Franchise
+  table: [string[]]
+}
+export type { pieChartData, DateStatisticData, DateSalesCompanyStatisticData }

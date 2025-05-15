@@ -102,9 +102,39 @@ const getDateFranchiseRevenueStatistic = async ({
   return null
 }
 
+const getDateFranchiseSalesCompanyStatistic = async ({
+  franchiseId,
+  startDate,
+  endDate,
+}: {
+  franchiseId: string
+  startDate: string
+  endDate: string
+}) => {
+  let query = ''
+  if (franchiseId) {
+    query += `franchise_id=${franchiseId}`
+  }
+  if (startDate) {
+    query += `&start_date=${startDate}`
+  }
+  if (endDate) {
+    query += `&end_date=${endDate}`
+  }
+
+  const result = await API.get(
+    `/franchise/get-franchise-salescompany-statistic/?${query}`
+  )
+
+  // console.log('getDateFranchiseProductStatistic:', result.data)
+  if (result.data) return result.data
+  return null
+}
+
 export {
   getDateStatistic,
   getDateProductStatistic,
   getDateFranchiseProductStatistic,
   getDateFranchiseRevenueStatistic,
+  getDateFranchiseSalesCompanyStatistic,
 }

@@ -1,11 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from './data-table-column-header'
 // import { DataTableRowActions } from './data-table-row-actions'
 
-import { labels } from '../data/data'
 import { Task } from '../data/schema'
 import { format } from 'date-fns'
 
@@ -40,7 +38,7 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title='id' />
     ),
     cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {
@@ -49,17 +47,19 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title='상품명' />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label)
-
       return (
         <div className='flex space-x-2'>
-          {label && <Badge variant='outline'>{label.label}</Badge>}
           <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
             {row.getValue('product_name')}
           </span>
         </div>
       )
     },
+    meta: {
+      title: '상품명',
+    },
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     accessorKey: 'branch',
@@ -67,6 +67,11 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title='브랜치' />
     ),
     cell: ({ row }) => <div className='w-[80px]'>{row.getValue('branch')}</div>,
+    meta: {
+      title: '브랜치',
+    },
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     accessorKey: 'stock',
@@ -85,6 +90,11 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       )
     },
+    meta: {
+      title: '재고',
+    },
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     accessorKey: 'min_stock',
@@ -94,6 +104,9 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => (
       <div className='w-[80px]'>{row.getValue('min_stock')}</div>
     ),
+    meta: {
+      title: '최소 재고',
+    },
   },
   {
     accessorKey: 'optimal_stock',
@@ -103,6 +116,9 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => (
       <div className='w-[80px]'>{row.getValue('optimal_stock')}</div>
     ),
+    meta: {
+      title: '적정 재고',
+    },
   },
   {
     accessorKey: 'last_synced_at',
@@ -114,6 +130,9 @@ export const columns: ColumnDef<Task>[] = [
         {format(row.getValue('last_synced_at'), 'yy/MM/dd HH:mm:ss')}
       </div>
     ),
+    meta: {
+      title: '재고 측정시간',
+    },
   },
 
   // {

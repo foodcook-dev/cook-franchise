@@ -7,10 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { pieChartData } from '@/types/product'
+import { DateSalesCompanyStatisticData, pieChartData } from '@/types/product'
 import { CircleAlert } from 'lucide-react'
 
-export function ProductSales({ data }: { data: pieChartData | null }) {
+export function ProductSales({
+  data,
+}: {
+  data: pieChartData | DateSalesCompanyStatisticData | null
+}) {
   // const t = useTranslations('dashboard')
 
   if (
