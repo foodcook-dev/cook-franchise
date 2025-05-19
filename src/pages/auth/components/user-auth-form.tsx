@@ -84,12 +84,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 <FormItem className='space-y-2'>
                   <div className='flex items-center justify-between'>
                     <FormLabel>비밀번호</FormLabel>
-                    <Link
+                    {/* <Link
                       to='/forgot-password'
                       className='text-sm font-medium text-muted-foreground hover:opacity-75'
                     >
                       비밀번호를 잊으셨나요?
-                    </Link>
+                    </Link> */}
                   </div>
                   <FormControl>
                     <PasswordInput placeholder='********' {...field} />

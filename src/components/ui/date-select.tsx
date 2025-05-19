@@ -24,9 +24,9 @@ interface DateSelectProps {
     franchiseId?: string | null
     storeInfo?: { id: string; name: string } | null
   }) => void
-  handleSubmitQuarter?: (quarter: number) => void
+
   selectedButton: string | null
-  handleSubmitPeriod?: (period: 'daily' | 'weekly' | 'monthly') => void
+
   handleSelectButton: (value: string) => void
 }
 
@@ -36,9 +36,7 @@ export function DateSelect({
   endDate,
   setEndDate,
   handleSubmitDate,
-  // handleSubmitQuarter,
   selectedButton,
-  // handleSubmitPeriod,
   handleSelectButton,
 }: DateSelectProps) {
   return (

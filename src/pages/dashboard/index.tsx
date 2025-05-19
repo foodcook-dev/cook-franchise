@@ -1,12 +1,5 @@
 import { Layout } from '@/components/custom/layout'
-import {
-  startOfWeek,
-  // endOfWeek,
-  startOfMonth,
-  // endOfMonth,
-  format,
-  addDays,
-} from 'date-fns'
+import { startOfWeek, startOfMonth, format, addDays } from 'date-fns'
 
 import {
   Card,
@@ -15,19 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-// import { Search } from '@/components/search'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-// import ThemeSwitch from '@/components/theme-switch'
-// import { TopNav } from '@/components/top-nav'
+
 import { UserNav } from '@/components/user-nav'
 import { RecentSales } from './components/recent-sales'
 
 import { useTranslations } from 'use-intl'
-// import LanguageSwitch from '@/components/language-switch'
-// import { ProductChart } from './components/product-chart'
-// import { ProductSales } from './components/product-sales'
-
-// import { productColumns } from './components/product-columns'
 
 import { DateSelect } from '@/components/ui/date-select'
 import { useEffect, useState } from 'react'
@@ -47,20 +34,8 @@ import { useToast } from '@/components/ui/use-toast'
 import { Franchise } from '@/types/users'
 import { ProductStatistic } from './components/product-statistic'
 import { ProductSales } from './components/product-sales'
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from '@/components/ui/select'
 import FranchiseSelect from '@/components/common/FranchiseSelect'
-// import { getFranchiseList, getStoreList } from '@/controller/franchise'
 import useAppStore from '@/stores/store'
-
-// import { FranchiseSales } from './components/franchise-sales'
 
 export default function Dashboard() {
   const t = useTranslations('dashboard')
@@ -87,14 +62,8 @@ export default function Dashboard() {
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
 
   // new franchise api
-  // const [franchiseList, setFranchiseList] = useState<[]>([])
   const selectedFranchise = useAppStore((state) => state.selectedFranchise)
-  // const setSelectedFranchise = useAppStore(
-  //   (state) => state.setSelectedFranchise
-  // )
   const selectedStore = useAppStore((state) => state.selectedStore)
-  // const setSelectedStore = useAppStore((state) => state.setSelectedStore)
-  // const [storeList, setStoreList] = useState<[]>([])
 
   const handleSelectButton = (value: string) => {
     setSelectedButton(value)
@@ -511,7 +480,6 @@ export default function Dashboard() {
     <Layout>
       {/* ===== Top Heading ===== */}
       <Layout.Header>
-        {/* <TopNav links={topNav} /> */}
         {franchiseInfo?.ui?.logo_image ? (
           <img
             src={franchiseInfo?.ui?.logo_image}
@@ -524,15 +492,11 @@ export default function Dashboard() {
 
         <div className='ml-auto flex items-center space-x-4'>
           {/* <Search /> */}
-
-          {/* <ThemeSwitch /> */}
-          {/* <LanguageSwitch /> */}
           <UserNav userInfo={userInfo} />
         </div>
       </Layout.Header>
 
       {/* ===== Main ===== */}
-
       <Layout.Body>
         <div className='mb-6'>
           <DateSelect
@@ -541,9 +505,7 @@ export default function Dashboard() {
             endDate={endDate}
             setEndDate={setEndDate}
             handleSubmitDate={handleSubmitDate}
-            handleSubmitQuarter={handleSubmitQuarter}
             selectedButton={selectedButton}
-            handleSubmitPeriod={handleSubmitPeriod}
             handleSelectButton={handleSelectButton}
           />
         </div>
@@ -625,17 +587,6 @@ export default function Dashboard() {
 
           <TabsContent value='sales_company_statistic' className='space-y-4'>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              {/* <Card className='col-span-1 lg:col-span-4'>
-                <CardHeader>
-                  <div className='flex-row items-center '>
-                    <CardTitle>{t('sales_company_statistic')}</CardTitle>
-                  </div>
-                </CardHeader>
-
-                <CardContent className='pl-2'>
-                  <ProductStatistic data={productStatisticData} />
-                </CardContent>
-              </Card> */}
               <Card className='col-span-1 lg:col-span-7'>
                 <CardHeader>
                   <CardTitle>{t('sales_company_statistic')}</CardTitle>
@@ -652,26 +603,3 @@ export default function Dashboard() {
     </Layout>
   )
 }
-
-// const topNav = [
-//   {
-//     title: 'dashboard.overview',
-//     href: 'dashboard/overview',
-//     isActive: true,
-//   },
-//   {
-//     title: 'dashboard.customers',
-//     href: 'dashboard/customers',
-//     isActive: false,
-//   },
-//   {
-//     title: 'dashboard.products',
-//     href: 'dashboard/products',
-//     isActive: false,
-//   },
-//   {
-//     title: 'dashboard.settings',
-//     href: 'dashboard/settings',
-//     isActive: false,
-//   },
-// ]
