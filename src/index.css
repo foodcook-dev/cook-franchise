@@ -114,6 +114,22 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* 스크롤바 트랙 꾸미기 */
+::-webkit-scrollbar-track {
+  background: var(--background);
+  border-radius: 8px;
+}
+
+/* 스크롤바 손잡이 꾸미기 */
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 8px;
+}
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {

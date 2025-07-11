@@ -21,7 +21,7 @@ import {
   // IconSettings,
   // IconTruck,
   // IconUserShield,
-  // IconUsers,
+  IconUsers,
   // IconLock,
 } from '@tabler/icons-react'
 
@@ -48,6 +48,12 @@ export const sidelinks: SideLink[] = [
     label: '',
     href: '/stock-management',
     icon: <IconCheckupList size={18} />,
+  },
+  {
+    title: 'sidebar.signal_chat',
+    label: '',
+    href: '/signal-chat',
+    icon: <IconUsers size={18} />,
   },
   // {
   //   title: 'sidebar.tasks',
