@@ -61,10 +61,10 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
     }, [children, isFetchingNextPage])
 
     return (
-      <div className='relative h-full w-full bg-background'>
+      <div className='relative h-full w-full'>
         <div
           className={cn(
-            'scrollbar-thin scrollbar-thumb-background dark:scrollbar-thumb-background scrollbar-track-background flex h-full w-full flex-col overflow-y-auto px-4 py-6',
+            'scrollbar-thin scrollbar-thumb-muted/30 scrollbar-track-transparent flex h-full w-full flex-col overflow-y-auto px-6 py-8',
             className
           )}
           ref={scrollRef}
@@ -74,21 +74,26 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
           {...props}
         >
           {isFetchingNextPage && (
-            <div className='flex justify-center py-4'>
-              <div className='h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600'></div>
+            <div className='flex justify-center py-6'>
+              <div className='bg-muted/50 flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm'>
+                <div className='h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent'></div>
+                <span className='text-sm text-muted-foreground'>
+                  메시지를 불러오는 중...
+                </span>
+              </div>
             </div>
           )}
-          <div className='flex flex-col gap-2'>{children}</div>
-        </div>{' '}
+          <div className='flex flex-col gap-4'>{children}</div>
+        </div>
         {!isAtBottom && (
           <Button
             onClick={() => scrollToBottom()}
             size='icon'
             variant='outline'
-            className='absolute bottom-4 left-1/2 h-10 w-10 -translate-x-1/2 transform rounded-full shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105'
+            className='border-border/50 bg-background/80 hover:shadow-3xl absolute bottom-6 left-1/2 h-12 w-12 -translate-x-1/2 transform rounded-full shadow-2xl backdrop-blur-xl transition-all duration-300 hover:scale-110'
             aria-label='Scroll to bottom'
           >
-            <ArrowDown className='h-4 w-4 text-muted-foreground' />
+            <ArrowDown className='h-5 w-5 text-muted-foreground' />
           </Button>
         )}
       </div>

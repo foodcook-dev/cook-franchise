@@ -31,22 +31,22 @@ export default function InputForm({
   onImageButtonClick,
 }: InputFormProps) {
   return (
-    <div className='flex-shrink-0 bg-background pt-2'>
+    <div className='flex-shrink-0'>
       <form
         onSubmit={onSubmit}
-        className='overflow-hidden rounded-2xl border-4 border-border bg-gradient-to-r from-background to-background shadow-xl backdrop-blur-md transition-all duration-200 focus-within:border-blue-500/50 focus-within:shadow-2xl focus-within:shadow-blue-500/10'
+        className='border-border/50 bg-background/95 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border shadow-2xl backdrop-blur-xl transition-all duration-300'
       >
         <ImagePreview images={selectedImages} onRemove={onImageRemove} />
 
         <ChatInput
-          placeholder='내용을 작성하세요.'
-          className='min-h-16 resize-none border-0 p-2 shadow-none focus-visible:ring-0'
+          placeholder='내용을 작성하세요...'
+          className='placeholder:text-muted-foreground/60 min-h-16 resize-none border-0 bg-transparent px-6 py-4 text-base shadow-none focus-visible:ring-0'
           value={inputValue}
           onChange={(e) => onInputChange(e.target.value)}
         />
 
-        <div className='flex items-center justify-between p-3'>
-          <div className='flex items-center gap-2'>
+        <div className='border-border/30 flex items-center justify-between border-t px-6 py-4'>
+          <div className='flex items-center gap-3'>
             <input
               ref={fileInputRef}
               type='file'
@@ -58,21 +58,24 @@ export default function InputForm({
             <Button
               type='button'
               onClick={onImageButtonClick}
-              className='shadow-xs gap-1.5 bg-primary text-primary-foreground'
+              variant='outline'
+              size='sm'
+              className='border-border/50 bg-background/50 hover:bg-muted/50 gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 hover:shadow-md'
               disabled={isSubmitting}
             >
               <ImageIcon className='size-4' />
-              이미지 첨부 ({selectedImages.length}/{CHAT_CONSTANTS.MAX_IMAGES})
+              이미지 ({selectedImages.length}/{CHAT_CONSTANTS.MAX_IMAGES})
             </Button>
           </div>
 
           <div className='flex items-center gap-3'>
             <Button
               type='submit'
-              className='shadow-xs gap-1.5 bg-primary text-primary-foreground'
+              size='sm'
+              className='gap-2 rounded-full px-6 py-2 font-medium shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:hover:scale-100'
               disabled={!inputValue.trim() || isSubmitting}
             >
-              <Send className='size-3.5' />
+              <Send className='size-4' />
               {isSubmitting ? '전송 중...' : '발송'}
             </Button>
           </div>

@@ -35,7 +35,7 @@ export default function SignalChat() {
       </Layout.Header>
 
       <Layout.Body>
-        <div className='relative flex h-[calc(100vh-120px)] w-full flex-col'>
+        <div className='to-muted/30 relative flex h-[calc(100vh-120px)] w-full flex-col bg-gradient-to-br from-background via-background'>
           <SignalHeader />
           <div className='flex-1 overflow-hidden'>
             <ChatMessageList
