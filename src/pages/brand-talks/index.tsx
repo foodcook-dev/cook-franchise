@@ -1,5 +1,4 @@
 import { Layout } from '@/components/custom/layout'
-import FranchiseSelect from '@/components/common/FranchiseSelect'
 import { UserNav } from '@/components/user-nav'
 import SignalHeader from './components/signal-header'
 import { ChatMessageList } from '@/components/chat/chat-message-list'
