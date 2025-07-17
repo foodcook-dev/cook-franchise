@@ -30,11 +30,7 @@ export default function SignalChat() {
   return (
     <Layout>
       <Layout.Header sticky>
-        <FranchiseSelect storeShow={false} />
         <div className='ml-auto flex items-center space-x-4'>
-          {/* <Search /> */}
-          {/* <ThemeSwitch /> */}
-
           <UserNav userInfo={userInfo} />
         </div>
       </Layout.Header>

@@ -17,7 +17,7 @@ export default function OGTag({ ogTags }: OGTagProps) {
       {ogTags.map((og, index) => (
         <div
           key={index}
-          className='text-contrast overflow-hidden rounded-lg bg-foreground shadow-sm'
+          className='text-contrast overflow-hidden rounded-lg border-2 border-border bg-background shadow-md'
         >
           {og.og_image && (
             <img
@@ -31,7 +31,11 @@ export default function OGTag({ ogTags }: OGTagProps) {
               {og.og_title}
             </h3>
             <p className='mb-1 line-clamp-3 text-xs'>{og.og_description}</p>
-            <a href={og.og_tag_link} target='_blank' className='text-xs'>
+            <a
+              href={og.og_tag_link}
+              target='_blank'
+              className='text-xs font-medium text-blue-600 no-underline transition-opacity hover:opacity-80'
+            >
               {og.og_tag_link}
             </a>
           </div>
