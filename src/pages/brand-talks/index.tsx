@@ -4,7 +4,6 @@ import { UserNav } from '@/components/user-nav'
 import SignalHeader from './components/signal-header'
 import { ChatMessageList } from '@/components/chat/chat-message-list'
 import SignalMessage from './components/signal-message'
-import signalMessages from '@/data/signal-messages.json'
 import InputForm from './components/input-form'
 import { useSignalHandler } from './hooks/useSignalHandler'
 
@@ -12,20 +11,20 @@ export default function SignalChat() {
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
   const {
     fileInputRef,
-    // scrollTriggerRef,
+    scrollTriggerRef,
     inputValue,
     selectedImages,
     isSubmitting,
-    // messageList,
+    messageList,
     setInputValue,
     handleSendMessage,
     handleDeleteMessage,
     handleImageSelect,
     handleImageRemove,
     handleImageButtonClick,
-    // loadMoreMessages,
-    // hasNextPage,
-    // isFetchingNextPage,
+    loadMoreMessages,
+    hasNextPage,
+    isFetchingNextPage,
   } = useSignalHandler()
 
   return (
@@ -45,12 +44,12 @@ export default function SignalChat() {
           <SignalHeader />
           <div className='flex-1 overflow-hidden'>
             <ChatMessageList
-            // onLoadMore={loadMoreMessages}
-            // hasNextPage={hasNextPage}
-            // isFetchingNextPage={isFetchingNextPage}
-            // scrollTriggerRef={scrollTriggerRef}
+              onLoadMore={loadMoreMessages}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              scrollTriggerRef={scrollTriggerRef}
             >
-              {signalMessages
+              {messageList
                 .slice()
                 .reverse()
                 .map((chat) => (

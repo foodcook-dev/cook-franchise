@@ -61,9 +61,9 @@ const router = createBrowserRouter(
           }),
         },
         {
-          path: 'signal-chat',
+          path: 'brand-talks',
           lazy: async () => ({
-            Component: (await import('@/pages/signal-chat')).default,
+            Component: (await import('@/pages/brand-talks')).default,
           }),
         },
         {

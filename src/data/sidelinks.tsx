@@ -50,9 +50,9 @@ export const sidelinks: SideLink[] = [
     icon: <IconCheckupList size={18} />,
   },
   {
-    title: 'sidebar.signal_chat',
+    title: 'sidebar.brand_talks',
     label: '',
-    href: '/signal-chat',
+    href: '/brand-talks',
     icon: <IconUsers size={18} />,
   },
   // {

@@ -8,7 +8,7 @@ export default function SignalHeader() {
       </div>
       <div className='flex flex-col items-start justify-center gap-1'>
         <p className='text-contrast text-sm font-semibold leading-none'>
-          시그널 채팅
+          브랜드 톡
         </p>
         <p className='text-contrast/60 text-xs'>메세지를 작성하고 전달하세요</p>
       </div>

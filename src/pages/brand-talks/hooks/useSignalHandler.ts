@@ -1,12 +1,14 @@
 import { useState, useRef, useCallback } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
-// import createAxios from '@/libs/create-axios-instance'
-// import useFetch from '@/hooks/useFetch'
+import createAxios from '../private/libs/create-axios-instance'
+import useAppStore from '@/stores/store'
+import useFetch from '../private/hooks/useFetch'
 import { SelectedImage, ChatResponse } from '../types'
 import { CHAT_CONSTANTS } from '../data'
 import { validateImageFile } from '../utils'
 
 export const useSignalHandler = () => {
+  const selectedFranchise = useAppStore((state) => state.selectedFranchise)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const scrollTriggerRef = useRef<() => void>(null)
   const [inputValue, setInputValue] = useState<string>('')
@@ -14,16 +16,17 @@ export const useSignalHandler = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const signalResponse = useInfiniteQuery<ChatResponse>({
-    queryKey: ['signal'],
-    // queryFn: ({ pageParam = 1 }) =>
-    // createAxios({
-    //   method: 'get',
-    //   endpoint: `/talk/signal_talks/admin/`,
-    //   params: {
-    //     page: pageParam as number,
-    //     page_size: 10,
-    //   },
-    // }),
+    queryKey: ['signal', selectedFranchise?.id],
+    queryFn: ({ pageParam = 1 }) =>
+      createAxios({
+        method: 'get',
+        endpoint: `/franchise/brand-talks/admin/`,
+        params: {
+          franchise_id: selectedFranchise?.id,
+          page: pageParam as number,
+          page_size: 10,
+        },
+      }),
     getNextPageParam: (lastPage, pages) => {
       if (lastPage.next) return pages.length + 1
       return undefined
@@ -31,19 +34,19 @@ export const useSignalHandler = () => {
     initialPageParam: 1,
   })
 
-  // const useSendChat = () => {
-  // const { request } = useFetch<any, FormData>({
-  //   requestFn: (params) => {
-  //     return createAxios({
-  //       method: 'post',
-  //       endpoint: `/talk/signal_talks/create/`,
-  //       body: params,
-  //     })
-  //   },
-  // })
-  // return request
-  // }
-  // const sendChatRequest = useSendChat()
+  const useSendChat = () => {
+    const { request } = useFetch<any, FormData>({
+      requestFn: (params) => {
+        return createAxios({
+          method: 'post',
+          endpoint: `/franchise/brand-talks/create/`,
+          body: params,
+        })
+      },
+    })
+    return request
+  }
+  const sendChatRequest = useSendChat()
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,7 +57,7 @@ export const useSignalHandler = () => {
     setIsSubmitting(true)
 
     const formData = new FormData()
-
+    formData.append('franchise_id', selectedFranchise?.id || '')
     if (trimmedInput) formData.append('message', trimmedInput)
 
     try {
@@ -70,7 +73,7 @@ export const useSignalHandler = () => {
         }
       }
 
-      // await sendChatRequest(formData)
+      await sendChatRequest(formData)
 
       setInputValue('')
       setSelectedImages([])
