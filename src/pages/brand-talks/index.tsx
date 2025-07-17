@@ -5,9 +5,15 @@ import { ChatMessageList } from '@/components/chat/chat-message-list'
 import SignalMessage from './components/signal-message'
 import InputForm from './components/input-form'
 import { useSignalHandler } from './hooks/useSignalHandler'
+import { Franchise } from '@/types/users'
 
 export default function SignalChat() {
+  const franchiseInfo: Franchise =
+    localStorage.getItem('franchiseInfo') !== undefined
+      ? JSON.parse(localStorage.getItem('franchiseInfo') || 'null')
+      : null
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+
   const {
     fileInputRef,
     scrollTriggerRef,
@@ -29,6 +35,13 @@ export default function SignalChat() {
   return (
     <Layout>
       <Layout.Header sticky>
+        {franchiseInfo?.ui?.logo_image ? (
+          <img
+            src={franchiseInfo?.ui?.logo_image}
+            alt='Logo'
+            className='h-10 w-auto'
+          />
+        ) : null}
         <div className='ml-auto flex items-center space-x-4'>
           <UserNav userInfo={userInfo} />
         </div>
