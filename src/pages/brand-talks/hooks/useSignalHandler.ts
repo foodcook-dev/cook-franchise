@@ -184,9 +184,7 @@ export const useSignalHandler = () => {
   }, [signalResponse])
 
   const messageList =
-    signalResponse.data?.pages.flatMap((page) =>
-      page.results.filter((result) => !result.is_deleted)
-    ) || []
+    signalResponse.data?.pages.flatMap((page) => page.results) || []
 
   return {
     fileInputRef,

@@ -3,9 +3,13 @@ import { X } from 'lucide-react'
 
 interface ContentImagesProps {
   images: string[]
+  disabled?: boolean
 }
 
-export default function ContentImages({ images }: ContentImagesProps) {
+export default function ContentImages({
+  images,
+  disabled,
+}: ContentImagesProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   if (!images || images.length === 0) return null
@@ -32,8 +36,8 @@ export default function ContentImages({ images }: ContentImagesProps) {
         {images.slice(0, 5).map((imageUrl, index) => (
           <div
             key={index}
-            className='group relative cursor-pointer overflow-hidden rounded-xl'
-            onClick={() => setSelectedImage(imageUrl)}
+            className={`group relative overflow-hidden rounded-xl ${disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+            onClick={() => !disabled && setSelectedImage(imageUrl)}
           >
             <img
               src={imageUrl}
@@ -50,7 +54,7 @@ export default function ContentImages({ images }: ContentImagesProps) {
         ))}
       </div>
 
-      {selectedImage && (
+      {selectedImage && !disabled && (
         <div
           className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm'
           onClick={() => setSelectedImage(null)}

@@ -17,7 +17,8 @@ interface SignalMessageProps {
     message: string
     message_with_html?: string
     created_at: string
-    is_pushed?: boolean
+    is_deleted: boolean
+    is_pushed: boolean
     push_sent_at?: string | null
     og_tags?: Array<{
       og_image?: string
@@ -37,12 +38,22 @@ export default function SignalMessage({
   onSendPush,
 }: SignalMessageProps) {
   return (
-    <ChatBubble key={chat.id} variant='sent'>
+    <ChatBubble
+      key={chat.id}
+      variant='sent'
+      className={chat.is_deleted ? 'opacity-50' : ''}
+    >
       <ChatBubbleAvatar />
       <div className='flex flex-col space-y-2'>
         <div className='flex flex-col items-end space-y-2'>
           <ChatBubbleMessage>
             <div className='space-y-1'>
+              {chat.is_deleted && (
+                <div className='flex items-center gap-2 italic text-gray-500'>
+                  <Trash2 className='size-3' />
+                  <span>삭제된 메시지입니다</span>
+                </div>
+              )}
               <div>
                 {chat.message_with_html ? (
                   <div
@@ -68,32 +79,34 @@ export default function SignalMessage({
             </div>
           </ChatBubbleMessage>
           <OGTag ogTags={chat.og_tags || []} />
-          <ContentImages images={chat.content_images || []} />
+          <ContentImages images={chat.content_images || []} disabled={chat.is_deleted} />
         </div>
         <div className='flex items-end justify-end'>
           <ChatBubbleTimestamp timestamp={chat.created_at} />
         </div>
       </div>
-      <ChatBubbleActionWrapper variant='sent'>
-        <ChatBubbleAction
-          key={`PushNotification-${chat.id}`}
-          icon={
-            chat.is_pushed ? (
-              <CheckCircle className='size-4 text-green-600' />
-            ) : (
-              <Bell className='size-4' />
-            )
-          }
-          onClick={() => !chat.is_pushed && onSendPush(chat.id)}
-          disabled={chat.is_pushed}
-          className={chat.is_pushed ? 'cursor-not-allowed opacity-50' : ''}
-        />
-        <ChatBubbleAction
-          key={`Delete-${chat.id}`}
-          icon={<Trash2 className='size-4 text-red-600' />}
-          onClick={() => onDelete(chat.id)}
-        />
-      </ChatBubbleActionWrapper>
+      {!chat.is_deleted && (
+        <ChatBubbleActionWrapper variant='sent'>
+          <ChatBubbleAction
+            key={`PushNotification-${chat.id}`}
+            icon={
+              chat.is_pushed ? (
+                <CheckCircle className='size-4 text-green-600' />
+              ) : (
+                <Bell className='size-4' />
+              )
+            }
+            onClick={() => !chat.is_pushed && onSendPush(chat.id)}
+            disabled={chat.is_pushed}
+            className={chat.is_pushed ? 'cursor-not-allowed opacity-50' : ''}
+          />
+          <ChatBubbleAction
+            key={`Delete-${chat.id}`}
+            icon={<Trash2 className='size-4 text-red-600' />}
+            onClick={() => onDelete(chat.id)}
+          />
+        </ChatBubbleActionWrapper>
+      )}
     </ChatBubble>
   )
 }
