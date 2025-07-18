@@ -9,6 +9,9 @@ export interface ChatMessage {
     og_description: string
     og_tag_link: string
   }>
+  is_deleted: boolean
+  is_pushed: boolean
+  push_sent_at: string | null
   content_images?: string[]
 }
 
