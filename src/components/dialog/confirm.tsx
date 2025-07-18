@@ -38,7 +38,9 @@ export default function Confirm() {
           <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>취소</AlertDialogCancel>
+          <AlertDialogCancel className='bg-white' onClick={handleCancel}>
+            취소
+          </AlertDialogCancel>
           <AlertDialogAction onClick={handleConfirm}>확인</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -22,7 +22,7 @@ export default function OGTag({ ogTags }: OGTagProps) {
           href={og.og_tag_link}
           target='_blank'
           rel='noopener noreferrer'
-          className='border-border/50 bg-background/90 hover:shadow-primary/5 group block overflow-hidden rounded-2xl border-2 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
+          className='border-border/50 hover:shadow-primary/5 group block overflow-hidden rounded-2xl border-2 bg-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl'
         >
           {og.og_image && (
             <div className='relative overflow-hidden'>

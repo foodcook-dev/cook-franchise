@@ -77,7 +77,8 @@ const ChatBubbleAvatar: React.FC<ChatBubbleAvatarProps> = ({
 const chatBubbleMessageVariants = cva('px-5 py-3 shadow-sm backdrop-blur-sm', {
   variants: {
     variant: {
-      received: 'rounded-2xl rounded-br-md shadow-md border-2 border-border',
+      received:
+        'bg-white rounded-2xl rounded-br-md shadow-md border-2 border-border',
       sent: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl rounded-br-md shadow-md',
     },
     layout: {
@@ -201,7 +202,7 @@ const ChatBubbleActionWrapper = React.forwardRef<
     {...props}
   >
     {' '}
-    <div className='bg-background/80 border-border/30 flex gap-2 rounded-2xl border p-2 shadow-md backdrop-blur-lg'>
+    <div className='border-border/30 flex gap-2 rounded-2xl border bg-white p-2 shadow-md backdrop-blur-lg'>
       {children}
     </div>
   </div>

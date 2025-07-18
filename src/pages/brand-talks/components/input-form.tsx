@@ -34,7 +34,7 @@ export default function InputForm({
     <div className='flex-shrink-0'>
       <form
         onSubmit={onSubmit}
-        className='border-border/50 bg-background/95 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border shadow-2xl backdrop-blur-xl transition-all duration-300'
+        className='border-border/50 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border bg-white shadow-2xl backdrop-blur-xl transition-all duration-300'
       >
         <ImagePreview images={selectedImages} onRemove={onImageRemove} />
 

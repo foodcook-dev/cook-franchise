@@ -52,7 +52,7 @@ function AlertDialogContent({
       <AlertDialogPrimitive.Content
         data-slot='alert-dialog-content'
         className={cn(
-          'fixed left-[50%] top-[40%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-border bg-background p-6 shadow-lg sm:max-w-lg',
+          'fixed left-[50%] top-[40%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-border bg-white p-6 shadow-lg sm:max-w-lg',
           // '[box-shadow:0_1px_10px_rgba(0,0,0,0.30),0_10px_15px_rgba(0,0,0,0.22)]',
           className
         )}
