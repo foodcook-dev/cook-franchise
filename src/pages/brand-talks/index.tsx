@@ -24,6 +24,7 @@ export default function SignalChat() {
     setInputValue,
     handleSendMessage,
     handleDeleteMessage,
+    handleSendPush,
     handleImageSelect,
     handleImageRemove,
     handleImageButtonClick,
@@ -65,6 +66,7 @@ export default function SignalChat() {
                     key={chat.id}
                     chat={chat}
                     onDelete={handleDeleteMessage}
+                    onSendPush={handleSendPush}
                   />
                 ))}
             </ChatMessageList>

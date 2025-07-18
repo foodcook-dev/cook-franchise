@@ -6,8 +6,10 @@ import useFetch from '../private/hooks/useFetch'
 import { SelectedImage, ChatResponse } from '../types'
 import { CHAT_CONSTANTS } from '../data'
 import { validateImageFile } from '../utils'
+import { useConfirm } from '@/hooks/useConfirm'
 
 export const useSignalHandler = () => {
+  const setConfirm = useConfirm()
   const selectedFranchise = useAppStore((state) => state.selectedFranchise)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const scrollTriggerRef = useRef<() => void>(null)
@@ -94,8 +96,34 @@ export const useSignalHandler = () => {
     }
   }
 
-  const handleDeleteMessage = (id: string) => {
-    alert(`ID : ${id} 삭제 기능은 현재 지원되지않습니다.`)
+  const { request: deleteChatRequest } = useFetch({
+    requestFn: async (chat_id: number) => {
+      return await createAxios({
+        method: 'delete',
+        endpoint: `/franchise/brand-talks/admin/${chat_id}/delete/`,
+      })
+    },
+    onSuccess: () => signalResponse.refetch(),
+  })
+
+  const handleDeleteMessage = async (id: string) => {
+    const result = await setConfirm({ message: '메세지를 삭제하시겠습니까?' })
+    if (result) await deleteChatRequest(Number(id))
+  }
+
+  const { request: sendPushRequest } = useFetch({
+    requestFn: async (chat_id: number) => {
+      return await createAxios({
+        method: 'post',
+        endpoint: `/franchise/brand-talks/admin/${chat_id}/push/`,
+      })
+    },
+    onSuccess: () => signalResponse.refetch(),
+  })
+
+  const handleSendPush = async (id: string) => {
+    const result = await setConfirm({ message: '푸시알림을 발송하시겠습니까?' })
+    if (result) await sendPushRequest(Number(id))
   }
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +170,6 @@ export const useSignalHandler = () => {
   }
 
   const handleImageRemove = (index: number) => {
-    console.log(`이미지 ${index + 1} 제거`)
     setSelectedImages((prev) => prev.filter((_, i) => i !== index))
   }
 
@@ -169,6 +196,7 @@ export const useSignalHandler = () => {
     setInputValue,
     handleSendMessage,
     handleDeleteMessage,
+    handleSendPush,
     handleImageSelect,
     handleImageRemove,
     handleImageButtonClick,

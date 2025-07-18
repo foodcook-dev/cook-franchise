@@ -8,6 +8,7 @@ import router from '@/router'
 import '@/index.css'
 import { changeThemeColor } from './utils/changeThemeColor'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Confirm from '@/components/dialog/confirm'
 
 changeThemeColor()
 
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <LanguageProvider defaultLanguage='ko' storageKey='vite-ui-language'>
           <RouterProvider router={router} />
           <Toaster />
+          <Confirm />
         </LanguageProvider>
       </ThemeProvider>
     </QueryClientProvider>

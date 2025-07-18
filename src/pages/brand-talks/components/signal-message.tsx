@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react'
+import { Trash2, Bell } from 'lucide-react'
 import {
   ChatBubble,
   ChatBubbleAvatar,
@@ -25,9 +25,14 @@ interface SignalMessageProps {
     content_images?: string[]
   }
   onDelete: (id: string) => void
+  onSendPush: (id: string) => void
 }
 
-export default function SignalMessage({ chat, onDelete }: SignalMessageProps) {
+export default function SignalMessage({
+  chat,
+  onDelete,
+  onSendPush,
+}: SignalMessageProps) {
   return (
     <ChatBubble key={chat.id} variant='sent'>
       <ChatBubbleAvatar />
@@ -51,9 +56,13 @@ export default function SignalMessage({ chat, onDelete }: SignalMessageProps) {
       </div>
       <ChatBubbleActionWrapper variant='sent'>
         <ChatBubbleAction
-          className='size-10'
+          key={`PushNotification-${chat.id}`}
+          icon={<Bell className='size-4' />}
+          onClick={() => onSendPush(chat.id)}
+        />
+        <ChatBubbleAction
           key={`Delete-${chat.id}`}
-          icon={<Trash2 className='size-3' />}
+          icon={<Trash2 className='size-4' />}
           onClick={() => onDelete(chat.id)}
         />
       </ChatBubbleActionWrapper>

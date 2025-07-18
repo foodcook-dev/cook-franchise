@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Bell } from 'lucide-react'
+import { User } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
@@ -68,7 +68,7 @@ const ChatBubbleAvatar: React.FC<ChatBubbleAvatarProps> = ({
   <Avatar className={cn('h-11 w-11 shadow-sm', className)}>
     <AvatarImage src={src} alt='Avatar' />
     <AvatarFallback className='bg-primary text-xs font-medium'>
-      <Bell className='h-5 w-5 text-primary-foreground' />
+      <User className='h-5 w-5 text-primary-foreground' />
     </AvatarFallback>
   </Avatar>
 )
@@ -168,7 +168,10 @@ const ChatBubbleAction: React.FC<ChatBubbleActionProps> = ({
   <Button
     variant={variant}
     size={size}
-    className={cn('h-8 w-8 rounded-md ', className)}
+    className={cn(
+      'hover:border-border/40 h-9 w-9 rounded-lg backdrop-blur-md transition-all duration-300 ease-out hover:scale-110 hover:shadow-lg active:scale-95',
+      className
+    )}
     onClick={onClick}
     {...props}
   >
@@ -189,16 +192,16 @@ const ChatBubbleActionWrapper = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'absolute top-1/2 flex -translate-y-1/2 gap-1 opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-100',
+      'absolute top-1/2 flex -translate-y-1/2 gap-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-[-48%] group-hover:opacity-100',
       variant === 'sent'
-        ? '-left-2 -translate-x-full flex-row-reverse'
-        : '-right-2 translate-x-full',
+        ? '-left-3 -translate-x-full flex-row-reverse'
+        : '-right-3 translate-x-full',
       className
     )}
     {...props}
   >
     {' '}
-    <div className='flex gap-1 rounded-lg p-1 shadow-lg backdrop-blur-sm'>
+    <div className='bg-background/80 border-border/30 flex gap-2 rounded-2xl border p-2 shadow-md backdrop-blur-lg'>
       {children}
     </div>
   </div>
