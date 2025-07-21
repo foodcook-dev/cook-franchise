@@ -39,7 +39,6 @@ const languages = [
   { label: 'Russian', value: 'ru' },
   { label: 'Japanese', value: 'ja' },
   { label: 'Korean', value: 'ko' },
-  { label: 'Chinese', value: 'zh' },
 ] as const
 
 const accountFormSchema = z.object({
