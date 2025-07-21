@@ -79,7 +79,10 @@ export default function SignalMessage({
             </div>
           </ChatBubbleMessage>
           <OGTag ogTags={chat.og_tags || []} />
-          <ContentImages images={chat.content_images || []} disabled={chat.is_deleted} />
+          <ContentImages
+            images={chat.content_images || []}
+            disabled={chat.is_deleted}
+          />
         </div>
         <div className='flex items-end justify-end'>
           <ChatBubbleTimestamp timestamp={chat.created_at} />
