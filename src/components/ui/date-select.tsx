@@ -98,7 +98,7 @@ export function DateSelect({
           </PopoverContent>
         </Popover>
 
-        <Button
+        {/* <Button
           variant={'default'}
           className='ml-2 w-[60px] pl-3 text-left font-normal'
           onClick={() =>
@@ -107,7 +107,7 @@ export function DateSelect({
           }
         >
           <span>적용</span>
-        </Button>
+        </Button> */}
       </div>
 
       <div className='my-3 flex flex-wrap justify-end'>

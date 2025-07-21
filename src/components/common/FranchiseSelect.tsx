@@ -73,7 +73,7 @@ export default function FranchiseSelect({
       (franchise: { id: number }) => franchise.id.toString() === franchiseId
     )
 
-    console.log('selected:', selected)
+    // console.log('selected:', selected)
 
     if (selected) {
       setSelectedFranchise(selected)

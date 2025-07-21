@@ -12,15 +12,18 @@ import { CircleAlert } from 'lucide-react'
 
 export function ProductSales({
   data,
+  isError,
 }: {
   data: pieChartData | DateSalesCompanyStatisticData | null
+  isError: boolean
 }) {
   // const t = useTranslations('dashboard')
 
   if (
     !data?.table ||
     data.table.length === undefined ||
-    data.table.length === (1 as number)
+    data.table.length === (1 as number) ||
+    isError
   ) {
     return (
       <div

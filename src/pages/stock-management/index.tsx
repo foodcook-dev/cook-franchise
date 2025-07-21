@@ -57,9 +57,6 @@ export default function StockManagement() {
       <Layout.Header sticky>
         <FranchiseSelect storeShow={false} />
         <div className='ml-auto flex items-center space-x-4'>
-          {/* <Search /> */}
-          {/* <ThemeSwitch /> */}
-
           <UserNav userInfo={userInfo} />
         </div>
       </Layout.Header>
@@ -68,9 +65,6 @@ export default function StockManagement() {
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>재고 관리</h2>
-            {/* <p className='text-muted-foreground'>
-              프랜차이즈의 재고관리가 가능합니다.
-            </p> */}
           </div>
         </div>
 

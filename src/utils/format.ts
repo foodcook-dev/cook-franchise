@@ -1,4 +1,9 @@
-import { addDays, startOfMonth, startOfWeek } from 'date-fns'
+import { Franchise } from '@/types/users'
+
+type Store = {
+  id: string | number
+  name: string
+}
 
 const formatPrice = (price: number | string | undefined) => {
   if (!price) {
@@ -10,56 +15,46 @@ const formatPrice = (price: number | string | undefined) => {
   return price.toLocaleString()
 }
 
-function getDateRangeForPeriod(period: 'daily' | 'weekly' | 'monthly') {
-  const today = new Date()
-  const yesterday = addDays(today, -1)
+function resolveIds({
+  franchiseId,
+  storeInfo,
+  selectedFranchise,
+  selectedStore,
+  franchiseInfo,
+}: {
+  franchiseId?: string | number | null | undefined
+  storeInfo?: Store | null
+  selectedFranchise: Franchise | Store | null
+  selectedStore?: Store | null
+  franchiseInfo?: Franchise | null
+}) {
+  // franchiseId 결정
+  // console.log('franchiseId:', franchiseId)
+  // console.log('selectedStore:', selectedStore)
+  const resolvedFranchiseId = selectedFranchise ? selectedFranchise?.id : ''
 
-  switch (period) {
-    case 'daily':
-      return {
-        startDate: addDays(today, -1),
-        endDate: yesterday,
-      }
+  // storeId 결정
+  const resolvedStoreId = storeInfo
+    ? storeInfo?.id
+    : selectedStore
+      ? selectedStore?.id
+      : ''
 
-    case 'weekly':
-      return {
-        startDate: startOfWeek(yesterday),
-        endDate: yesterday,
-      }
+  // salesCompany용 franchiseId 결정 (특별 케이스)
+  const salesCompanyFranchiseId =
+    franchiseId && franchiseId === 'all'
+      ? franchiseInfo?.id?.toString()
+      : franchiseId && franchiseId !== 'all'
+        ? franchiseId
+        : selectedFranchise
+          ? selectedFranchise?.id
+          : ''
 
-    case 'monthly':
-      return {
-        startDate: startOfMonth(yesterday),
-        endDate: yesterday,
-      }
+  return {
+    franchiseId: resolvedFranchiseId,
+    storeId: resolvedStoreId,
+    salesCompanyFranchiseId,
   }
 }
 
-function getDateRangeForQuarter(quarter: 1 | 2 | 3 | 4) {
-  const year = new Date().getFullYear()
-
-  switch (quarter) {
-    case 1:
-      return {
-        startDate: new Date(year, 0, 1), // January 1st
-        endDate: new Date(year, 2, 31), // March 31st
-      }
-    case 2:
-      return {
-        startDate: new Date(year, 3, 1), // April 1st
-        endDate: new Date(year, 5, 30), // June 30th
-      }
-    case 3:
-      return {
-        startDate: new Date(year, 6, 1), // July 1st
-        endDate: new Date(year, 8, 30), // September 30th
-      }
-    case 4:
-      return {
-        startDate: new Date(year, 9, 1), // October 1st
-        endDate: new Date(year, 11, 31), // December 31st
-      }
-  }
-}
-
-export { formatPrice, getDateRangeForPeriod, getDateRangeForQuarter }
+export { formatPrice, resolveIds }
