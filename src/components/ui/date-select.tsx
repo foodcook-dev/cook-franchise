@@ -35,7 +35,7 @@ export function DateSelect({
   setStartDate,
   endDate,
   setEndDate,
-  handleSubmitDate,
+  // handleSubmitDate,
   selectedButton,
   handleSelectButton,
 }: DateSelectProps) {
@@ -63,7 +63,14 @@ export function DateSelect({
             <Calendar
               mode='single'
               selected={startDate}
-              onSelect={setStartDate}
+              onSelect={(date) => {
+                if (endDate && date && date > endDate) {
+                  alert('시작 날짜는 종료 날짜보다 늦을 수 없습니다.')
+                  return
+                }
+
+                setStartDate(date)
+              }}
               initialFocus
             />
           </PopoverContent>
@@ -91,6 +98,7 @@ export function DateSelect({
                   alert('종료 날짜는 시작 날짜보다 빠를 수 없습니다.')
                   return
                 }
+
                 setEndDate(date)
               }}
               initialFocus
