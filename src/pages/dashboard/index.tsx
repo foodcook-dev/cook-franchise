@@ -166,6 +166,7 @@ export default function Dashboard() {
   // 초기 로딩
   useEffect(() => {
     handleSelectButton('monthly')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -85,7 +85,6 @@ export default function ExtraComponents() {
                 </div>
               </TabsContent>
               <TabsContent value='code'>
-                {/* @ts-ignore */}
                 <SyntaxHighlighter
                   language='tsx'
                   style={nord}
@@ -133,7 +132,6 @@ export default function ExtraComponents() {
                 </div>
               </TabsContent>
               <TabsContent value='code'>
-                {/* @ts-ignore */}
                 <SyntaxHighlighter
                   language='tsx'
                   style={nord}
