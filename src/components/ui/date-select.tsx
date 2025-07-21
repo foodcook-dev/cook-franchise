@@ -24,9 +24,9 @@ interface DateSelectProps {
     franchiseId?: string | null
     storeInfo?: { id: string; name: string } | null
   }) => void
-  handleSubmitQuarter?: (quarter: number) => void
+
   selectedButton: string | null
-  handleSubmitPeriod?: (period: 'daily' | 'weekly' | 'monthly') => void
+
   handleSelectButton: (value: string) => void
 }
 
@@ -36,9 +36,7 @@ export function DateSelect({
   endDate,
   setEndDate,
   handleSubmitDate,
-  // handleSubmitQuarter,
   selectedButton,
-  // handleSubmitPeriod,
   handleSelectButton,
 }: DateSelectProps) {
   return (
@@ -100,7 +98,7 @@ export function DateSelect({
           </PopoverContent>
         </Popover>
 
-        <Button
+        {/* <Button
           variant={'default'}
           className='ml-2 w-[60px] pl-3 text-left font-normal'
           onClick={() =>
@@ -109,7 +107,7 @@ export function DateSelect({
           }
         >
           <span>적용</span>
-        </Button>
+        </Button> */}
       </div>
 
       <div className='my-3 flex flex-wrap justify-end'>

@@ -15,9 +15,9 @@ type Store = {
 }
 
 interface MyStoreState {
-  selectedFranchise: Franchise | null
+  selectedFranchise: Franchise | Store | null
   selectedStore: Store | null
-  setSelectedFranchise: (franchise: Franchise | null) => void
+  setSelectedFranchise: (franchise: Franchise | Store | null) => void
   setSelectedStore: (store: Store | null) => void
   reset: () => void
 }

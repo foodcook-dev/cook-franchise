@@ -1,11 +1,11 @@
 type Franchise = {
-  id: number
+  id: number | string
   name: string
   headquarters_address: string | null
   contact_email: string | null
   contact_phone: string | null
   ui?: {
-    franchise: number
+    franchise: number | null
     id: number
     accent: string
     accent_foreground: string

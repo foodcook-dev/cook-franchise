@@ -11,10 +11,16 @@ import { DateStatisticData } from '@/types/product'
 import { CircleAlert } from 'lucide-react'
 // import { useTranslations } from 'use-intl'
 
-export function RecentSales({ data }: { data: DateStatisticData | null }) {
+export function RecentSales({
+  data,
+  isError,
+}: {
+  data: DateStatisticData | null
+  isError: boolean
+}) {
   // const t = useTranslations('dashboard')
 
-  if (!data) {
+  if (!data || isError) {
     return (
       <div
         className='my-4 items-center justify-center'

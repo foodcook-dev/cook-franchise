@@ -26,7 +26,13 @@ import {
 import { pieChartData } from '@/types/product'
 import { PieSectorDataItem } from 'recharts/types/polar/Pie'
 
-export function ProductStatistic({ data }: { data: pieChartData | null }) {
+export function ProductStatistic({
+  data,
+  isError,
+}: {
+  data: pieChartData | null
+  isError: boolean
+}) {
   // console.log('ProductStatistic data:', data)
   const chartConfig = {
     product_name: {
@@ -75,7 +81,8 @@ export function ProductStatistic({ data }: { data: pieChartData | null }) {
   if (
     !data?.chart ||
     data.chart.length === undefined ||
-    data.chart.length === (0 as number)
+    data.chart.length === (0 as number) ||
+    isError
   ) {
     return (
       <div

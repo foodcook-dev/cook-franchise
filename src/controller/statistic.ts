@@ -40,8 +40,8 @@ const getDateFranchiseProductStatistic = async ({
   startDate,
   endDate,
 }: {
-  franchiseId?: string
-  sales_company_id?: string | null
+  franchiseId?: string | null | number
+  sales_company_id?: string | null | number | undefined
   startDate: string
   endDate: string
 }) => {
@@ -49,7 +49,7 @@ const getDateFranchiseProductStatistic = async ({
   if (franchiseId) {
     query += `franchise_id=${franchiseId}`
   }
-  if (sales_company_id) {
+  if (sales_company_id && sales_company_id !== 'all') {
     query += `&sales_company_id=${sales_company_id}`
   }
   if (startDate) {
@@ -63,7 +63,7 @@ const getDateFranchiseProductStatistic = async ({
     `/franchise/get-franchise-goods-statistic/?${query}`
   )
 
-  // console.log('getDateFranchiseProductStatistic:', result.data)
+  // console.log('getDateFranchiseProductStatistic:', query)
   if (result.data) return result.data
   return null
 }
@@ -74,8 +74,8 @@ const getDateFranchiseRevenueStatistic = async ({
   startDate,
   endDate,
 }: {
-  franchiseId?: string
-  sales_company_id?: string | null
+  franchiseId?: string | null | number
+  sales_company_id?: string | null | number | undefined
   startDate: string
   endDate: string
 }) => {
@@ -83,7 +83,7 @@ const getDateFranchiseRevenueStatistic = async ({
   if (franchiseId) {
     query += `franchise_id=${franchiseId}`
   }
-  if (sales_company_id) {
+  if (sales_company_id && sales_company_id !== 'all') {
     query += `&sales_company_id=${sales_company_id}`
   }
   if (startDate) {
@@ -92,6 +92,8 @@ const getDateFranchiseRevenueStatistic = async ({
   if (endDate) {
     query += `&end_date=${endDate}`
   }
+
+  // console.log('get-franchise-revenue-statistic query:', query)
 
   const result = await API.get(
     `/franchise/get-franchise-revenue-statistic/?${query}`
@@ -107,7 +109,7 @@ const getDateFranchiseSalesCompanyStatistic = async ({
   startDate,
   endDate,
 }: {
-  franchiseId: string
+  franchiseId?: string | null | number
   startDate: string
   endDate: string
 }) => {

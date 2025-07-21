@@ -30,8 +30,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function SalesStatus({ data }: { data: DateStatisticData | null }) {
-  if (!data) {
+export function SalesStatus({
+  data,
+  isError,
+}: {
+  data: DateStatisticData | null
+  isError: boolean
+}) {
+  if (!data || isError) {
     return (
       <div
         className='my-4 items-center justify-center'
