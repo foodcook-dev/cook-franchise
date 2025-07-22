@@ -9,7 +9,7 @@ export default function SignalHeader() {
         <Radio className='h-6 w-6 text-primary-foreground drop-shadow-sm' />
       </div>
       <div className='flex min-w-0 flex-col items-start justify-center gap-2'>
-        <FranchiseSelect storeShow={false} />
+        <FranchiseSelect storeShow={false} isAllSelected={false} />
         <p className='text-muted-foreground/80 text-xs'>
           프랜차이즈를 선택하고 메세지를 전달하세요
         </p>

@@ -7,12 +7,13 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
+  // SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 
 type FranchiseSelectProps = {
+  isAllSelected?: boolean
   storeShow?: boolean
   handleSubmitDate?: ({
     franchiseId,
@@ -24,8 +25,9 @@ type FranchiseSelectProps = {
 }
 
 export default function FranchiseSelect({
-  handleSubmitDate,
+  isAllSelected = true,
   storeShow = true,
+  handleSubmitDate,
 }: FranchiseSelectProps) {
   const { toast } = useToast()
   const [franchiseList, setFranchiseList] = useState<[]>([])
@@ -134,14 +136,20 @@ export default function FranchiseSelect({
         onValueChange={handleFranchiseChange}
         value={selectedFranchise?.id.toString() ?? ''}
       >
-        <SelectTrigger className='w-[180px]'>
-          <SelectValue placeholder={'프랜차이즈 선택'} />
+        <SelectTrigger
+          className={`${isAllSelected ? 'w-[180px]' : 'w-[200px]'} `}
+        >
+          {isAllSelected ? (
+            <SelectValue placeholder={'프랜차이즈 선택'} />
+          ) : (
+            <SelectValue placeholder={'프랜차이즈를 선택해주세요'} />
+          )}
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>프랜차이즈 선택</SelectLabel>
+            {/* <SelectLabel>프랜차이즈 선택</SelectLabel> */}
             <SelectItem key={'all'} value='all'>
-              전체
+              {isAllSelected ? '전체' : '선택'}
             </SelectItem>
             {franchiseList?.map((franchise: { id: number; name: string }) => (
               <SelectItem key={franchise.id} value={franchise.id.toString()}>
@@ -162,7 +170,7 @@ export default function FranchiseSelect({
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>가맹점 선택</SelectLabel>
+              {/* <SelectLabel>가맹점 선택</SelectLabel> */}
               <SelectItem key={'all'} value='all'>
                 전체
               </SelectItem>

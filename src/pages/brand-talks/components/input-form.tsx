@@ -1,6 +1,7 @@
 import { Send, ImageIcon } from 'lucide-react'
 import { Button } from '@/components/custom/button'
 import { ChatInput } from '@/components/chat/chat-input'
+import useAppStore from '@/stores/store'
 import ImagePreview from './image-preview'
 import { CHAT_CONSTANTS } from '../data'
 
@@ -30,19 +31,23 @@ export default function InputForm({
   onImageRemove,
   onImageButtonClick,
 }: InputFormProps) {
+  const selectedFranchise = useAppStore((state) => state.selectedFranchise)
+  const isDisabled = !selectedFranchise
+
   return (
     <div className='flex-shrink-0'>
       <form
         onSubmit={onSubmit}
-        className='border-border/50 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border bg-white shadow-2xl backdrop-blur-xl transition-all duration-300'
+        className={`border-border/50 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border bg-white shadow-2xl backdrop-blur-xl transition-all duration-300 ${isDisabled ? 'pointer-events-none opacity-60' : ''}`}
       >
         <ImagePreview images={selectedImages} onRemove={onImageRemove} />
 
         <ChatInput
-          placeholder='내용을 작성하세요...'
+          placeholder='내용을 작성하세요'
           className='placeholder:text-muted-foreground/60 min-h-16 resize-none border-0 bg-transparent px-6 py-4 text-base shadow-none focus-visible:ring-0'
           value={inputValue}
           onChange={(e) => onInputChange(e.target.value)}
+          disabled={isDisabled}
         />
 
         <div className='border-border/30 flex items-center justify-between border-t px-6 py-4'>
@@ -54,6 +59,7 @@ export default function InputForm({
               multiple
               onChange={onImageSelect}
               className='hidden'
+              disabled={isDisabled}
             />
             <Button
               type='button'
@@ -61,7 +67,7 @@ export default function InputForm({
               variant='outline'
               size='sm'
               className='border-border/50 bg-background/50 hover:bg-muted/50 gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 hover:shadow-md'
-              disabled={isSubmitting}
+              disabled={isSubmitting || isDisabled}
             >
               <ImageIcon className='size-4' />
               이미지 ({selectedImages.length}/{CHAT_CONSTANTS.MAX_IMAGES})
@@ -73,7 +79,7 @@ export default function InputForm({
               type='submit'
               size='sm'
               className='gap-2 rounded-full px-6 py-2 font-medium shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:hover:scale-100'
-              disabled={!inputValue.trim() || isSubmitting}
+              disabled={!inputValue.trim() || isSubmitting || isDisabled}
             >
               <Send className='size-4' />
               {isSubmitting ? '전송 중...' : '발송'}
