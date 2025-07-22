@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import createAxios from '../private/libs/create-axios-instance'
 import useAppStore from '@/stores/store'
@@ -16,6 +16,11 @@ export const useSignalHandler = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([])
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+
+  useEffect(() => {
+    setInputValue('')
+    setSelectedImages([])
+  }, [selectedFranchise])
 
   const signalResponse = useInfiniteQuery<ChatResponse>({
     queryKey: ['signal', selectedFranchise?.id],
