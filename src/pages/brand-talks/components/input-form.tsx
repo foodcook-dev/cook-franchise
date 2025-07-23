@@ -35,7 +35,7 @@ export default function InputForm({
   const isDisabled = !selectedFranchise
 
   return (
-    <div className='flex-shrink-0'>
+    <div className='input-form flex-shrink-0'>
       <form
         onSubmit={onSubmit}
         className={`border-border/50 focus-within:border-primary/30 focus-within:shadow-3xl overflow-hidden rounded-3xl border bg-white shadow-2xl backdrop-blur-xl transition-all duration-300 ${isDisabled ? 'pointer-events-none opacity-60' : ''}`}

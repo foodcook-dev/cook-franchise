@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
+
 import createAxios from '../private/libs/create-axios-instance'
 import useAppStore from '@/stores/store'
 import useFetch from '../private/hooks/useFetch'
@@ -10,6 +11,7 @@ import { useConfirm } from '@/hooks/useConfirm'
 
 export const useSignalHandler = () => {
   const setConfirm = useConfirm()
+
   const selectedFranchise = useAppStore((state) => state.selectedFranchise)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const scrollTriggerRef = useRef<() => void>(null)

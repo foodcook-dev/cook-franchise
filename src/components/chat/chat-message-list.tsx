@@ -61,7 +61,7 @@ const ChatMessageList = React.forwardRef<HTMLDivElement, ChatMessageListProps>(
     }, [children, isFetchingNextPage])
 
     return (
-      <div className='relative h-full w-full'>
+      <div className='chat-message-list relative h-full w-full'>
         <div
           className={cn(
             'scrollbar-thin scrollbar-thumb-muted/30 scrollbar-track-transparent flex h-full w-full flex-col overflow-y-auto px-6 py-8',

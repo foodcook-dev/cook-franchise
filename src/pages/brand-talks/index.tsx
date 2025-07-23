@@ -1,3 +1,6 @@
+import { AlertCircle } from 'lucide-react'
+import useGuideStore from '@/stores/guide'
+import { brandTalkSteps } from './guide-constants'
 import { Layout } from '@/components/custom/layout'
 import { UserNav } from '@/components/user-nav'
 import SignalHeader from './components/signal-header'
@@ -6,8 +9,10 @@ import SignalMessage from './components/signal-message'
 import InputForm from './components/input-form'
 import { useSignalHandler } from './hooks/useSignalHandler'
 import { Franchise } from '@/types/users'
+import { Button } from '@/components/custom/button'
 
 export default function SignalChat() {
+  const { setSteps } = useGuideStore()
   const franchiseInfo: Franchise =
     localStorage.getItem('franchiseInfo') !== undefined
       ? JSON.parse(localStorage.getItem('franchiseInfo') || 'null')
@@ -44,6 +49,10 @@ export default function SignalChat() {
           />
         ) : null}
         <div className='ml-auto flex items-center space-x-4'>
+          <Button onClick={() => setSteps(brandTalkSteps)}>
+            <AlertCircle className='mr-1 h-4 w-4' />
+            시작하기
+          </Button>
           <UserNav userInfo={userInfo} />
         </div>
       </Layout.Header>
