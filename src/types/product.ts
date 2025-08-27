@@ -31,6 +31,8 @@ type DateStatisticData = {
     total_cancel_count: number
     total_paid_amount: number
     total_canceled_amount: number
+    total_partial_cancel_amount: number
+    total_partial_cancel_count: number
     incentive: number
     most_purchases_sales_company: {
       sales_company_id: number

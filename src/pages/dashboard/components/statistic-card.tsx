@@ -130,10 +130,16 @@ export function StatisticCard({ data, isError }: StatisticProps) {
         </CardHeader>
         <CardContent>
           <div className='text-right text-2xl font-bold'>
-            {/* {data && data?.overall
-              ? data?.overall?.incentive.toLocaleString()
-              : 0} */}
-            0 원
+            {data && data?.overall
+              ? data?.overall?.total_partial_cancel_amount.toLocaleString()
+              : 0}
+            원
+          </div>
+          <div className='text-right text-2xl font-bold'>
+            {data && data?.overall
+              ? data?.overall?.total_partial_cancel_count
+              : 0}
+            건
           </div>
         </CardContent>
       </Card>

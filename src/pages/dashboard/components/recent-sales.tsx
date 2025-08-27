@@ -47,13 +47,13 @@ export function RecentSales({
         {data?.table?.slice(1).map((row, index) => (
           <TableRow key={index}>
             <TableCell className='text-center'>{row[0]}</TableCell>
-            <TableCell className='text-center'>{row[1]}</TableCell>
+            <TableCell className='text-center'>{row[1]}건</TableCell>
             <TableCell className='text-center'>
               {row[2].toLocaleString()}원
             </TableCell>
-            <TableCell className='text-center'>{row[3]}</TableCell>
+            <TableCell className='text-center'>{row[3]}건</TableCell>
             <TableCell className='text-center'>
-              {row[4].toLocaleString()}원
+              {row[4].toLocaleString()}건
             </TableCell>
             <TableCell className='text-center'>
               {row[5].toLocaleString()}원
